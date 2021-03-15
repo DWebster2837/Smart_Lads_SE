@@ -46,4 +46,7 @@ public class Account {
         }
     }
 
+    public boolean checkPassword(String pass){
+        return password.equals(hashString(pass));
+    }
 }
