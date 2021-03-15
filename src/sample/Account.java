@@ -83,10 +83,9 @@ public class Account implements Serializable{
         try {
             Stream<Path> stream = Files.list(folderPath).filter(Files::isRegularFile);
             PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob: *.txt");
-            stream = stream.filter(matcher::matches);
             //stream.filter((f) -> f.toString().toLowerCase().endsWith(".txt"));
             //technically either of these work; im assuming the thingy for the purpose is better.
-            files = stream.map(Path::toFile).toArray(File[]::new);
+            files = stream.filter(matcher::matches).map(Path::toFile).toArray(File[]::new);
             stream.close();
         }
         catch(Exception e){ throw new RuntimeException(e);}
@@ -96,5 +95,15 @@ public class Account implements Serializable{
             accarr[i] = loadAccount(f);
         }
         return accarr;
+    }
+
+    public static User registerUser(int id, String username, String email, String password){
+        Account newAcc = new Account(id, password, username, email);
+        User newUser = new User(id, newAcc);
+        newAcc.writeAccount(new File("blahdyblah/" + id + ".txt"));
+        newUser.writeUser(new File("goingyyoingy/" + id + ".txt"));
+        //todo: change the filepaths to actual filepaths
+        //todo: change user write function to not take a filepath; other places will need to save the user.
+        return newUser;
     }
 }
