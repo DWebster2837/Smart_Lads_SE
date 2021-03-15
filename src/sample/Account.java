@@ -5,6 +5,8 @@ import java.nio.file.*;
 import java.security.MessageDigest;
 import java.util.Base64;
 import java.io.*;
+import java.util.List;
+import java.util.stream.*;
 
 public class Account implements Serializable{
     private static Account[] accounts = loadAccounts(Paths.get(""));
@@ -64,7 +66,7 @@ public class Account implements Serializable{
             throw new RuntimeException(e);
         }
     }
-    private Account loadAccount(File file){
+    private static Account loadAccount(File file){
         try{
             FileInputStream finstr = new FileInputStream(file);
             ObjectInputStream in = new ObjectInputStream(finstr);
@@ -75,5 +77,24 @@ public class Account implements Serializable{
         catch(Exception e){
             throw new RuntimeException(e);
         }
+    }
+    private static Account[] loadAccounts(Path folderPath){
+        File[] files;
+        try {
+            Stream<Path> stream = Files.list(folderPath).filter(Files::isRegularFile);
+            PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob: *.txt");
+            stream = stream.filter(matcher::matches);
+            //stream.filter((f) -> f.toString().toLowerCase().endsWith(".txt"));
+            //technically either of these work; im assuming the thingy for the purpose is better.
+            files = stream.map(Path::toFile).toArray(File[]::new);
+            stream.close();
+        }
+        catch(Exception e){ throw new RuntimeException(e);}
+        Account[] accarr = new Account[files.length];
+        for(int i = 0; i < files.length; i++){
+            File f = files[i];
+            accarr[i] = loadAccount(f);
+        }
+        return accarr;
     }
 }
