@@ -12,5 +12,6 @@ public class Exercises {
         exercisearr = new Exercise[]{};
         exerciseTypes = new HashMap<>();
     }
+
 }
 
