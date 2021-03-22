@@ -1,16 +1,16 @@
 package sample;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 
-public class User {
+public class User implements Serializable {
     private final int userID;
     private Group[] groups;
     private Exercises exercises;
     private Diet diet;
     private Goals goals;
     private Account account;
+    @Serial
+    private final static long serialVersionUID = 1L;
 
     public User(int userID, Account account) {
         this.userID = userID;
