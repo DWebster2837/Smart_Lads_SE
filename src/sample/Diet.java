@@ -1,12 +1,10 @@
 package sample;
 
-public class Diet {
+import java.io.Serial;
+import java.io.Serializable;
 
-    private Meal mealType;
-    private Food foodType;
+public class Diet implements Serializable {
+    @Serial
+    private final static long serialVersionUID = 1L;
 
-    public static void addMeal(){
-    }
-    public static void addFood(){
-    }
 }
