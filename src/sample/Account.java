@@ -14,8 +14,6 @@ public class Account implements Serializable{
     private final String password;
     private final String username;
     private final String email;
-    @Serial
-    private final static long serialVersionUID = 1L;
 
     public Account(int userID, String password, String username, String email) {
         this.userID = userID;
