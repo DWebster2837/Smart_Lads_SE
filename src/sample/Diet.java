@@ -55,6 +55,16 @@ public class Diet implements Serializable {
     private LocalDate date;
     private Food food;
 
+    public int getLastSavedValue() {
+        return lastSavedValue;
+    }
+
+    public void setLastSavedValue(int lastSavedValue) {
+        this.lastSavedValue = lastSavedValue;
+    }
+
+    private int lastSavedValue;
+
     public String getMeal() {
         return meal;
     }

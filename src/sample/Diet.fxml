@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ChoiceBox?>
@@ -146,13 +147,13 @@
                         </HBox>
                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="634.0" text="Progress" />
                         <ProgressBar fx:id="progressBar" prefHeight="32.0" prefWidth="618.0" progress="0.0" />
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="631.0" text="Breakfast" />
+                        <Label fx:id="labelBreakfast" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="631.0" text="Breakfast, Total Calories: 0 " />
                         <TableView fx:id="breakfastTable" prefHeight="120.0" prefWidth="400.0" />
-                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="634.0" text="Lunch" />
+                        <Label fx:id="labelLunch" alignment="CENTER" prefHeight="17.0" prefWidth="634.0" text="Lunch, Total Calories: 0" />
                         <TableView fx:id="lunchTable" prefHeight="120.0" prefWidth="400.0" />
-                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="634.0" text="Dinner" />
+                        <Label fx:id="labelDinner" alignment="CENTER" prefHeight="17.0" prefWidth="634.0" text="Dinner, Total Calories: 0" />
                         <TableView fx:id="dinnerTable" prefHeight="120.0" prefWidth="400.0" />
-                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="634.0" text="Other" />
+                        <Label fx:id="labelOther" alignment="CENTER" prefHeight="17.0" prefWidth="634.0" text="Other, Total Calories: 0" />
                         <TableView fx:id="other" prefHeight="120.0" prefWidth="400.0" />
                         <Button fx:id="removeSelectedFood" mnemonicParsing="false" text="Remove selected food" />
                      </children>
@@ -163,7 +164,10 @@
       </Tab>
       <Tab text="Data Report">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <PieChart fx:id="mealBreakdown" layoutX="62.0" layoutY="14.0" />
+               </children></AnchorPane>
         </content>
       </Tab>
    </tabs>

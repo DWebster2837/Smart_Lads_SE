@@ -1,10 +1,12 @@
 package sample;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
@@ -46,9 +48,17 @@ public class DietController extends Diet implements Initializable, Serializable 
     @FXML private Label foodConsumed;
     @FXML private Label remainingCalories;
     @FXML private Button removeSelectedFood;
+    @FXML ObservableList<PieChart.Data> pieData;
+    @FXML private PieChart mealBreakdown;
+    @FXML private Label labelBreakfast;
+    @FXML private Label labelLunch;
+    @FXML private Label labelDinner;
+    @FXML private Label labelOther;
+
+    int breakfastTotal, lunchTotal, dinnerTotal, otherTotal;
+
 
     private String mealSelected;
-    private int lastSavedValue;
 
 
     private Diet readDiet(){
@@ -217,7 +227,7 @@ public class DietController extends Diet implements Initializable, Serializable 
         }
         diet.getMapTargetDate().put(LocalDate.now(), diet.getTargetCalories());
         updateProgressBar();
-        lastSavedValue = targetCalorie;
+        diet.setLastSavedValue(targetCalorie);
         diet.setChangesMade(true);
     }
     public boolean isNumber(String s){
@@ -254,7 +264,7 @@ public class DietController extends Diet implements Initializable, Serializable 
                     ArrayList<Food> emptyFood = new ArrayList<>();
                     diet.setTotalCalories(0);
                     diet.setFoodListDay(null);
-                    diet.setTargetCalories(lastSavedValue);
+                    diet.setTargetCalories(diet.getLastSavedValue());
                     breakfastTable.setItems(FXCollections.observableList(emptyFood));
                     breakfastTable.getColumns().setAll(foodNameBreakfast, foodCaloriesBreakfast);
                     lunchTable.setItems(FXCollections.observableList(emptyFood));
@@ -269,6 +279,7 @@ public class DietController extends Diet implements Initializable, Serializable 
             }
         });
         diet = readDiet();
+
         foodNameBreakfast.setCellValueFactory(new PropertyValueFactory<>("foodName"));
         foodCaloriesBreakfast.setCellValueFactory(new PropertyValueFactory<>("calories"));
         foodNameLunch.setCellValueFactory(new PropertyValueFactory<>("foodName"));
@@ -308,6 +319,9 @@ public class DietController extends Diet implements Initializable, Serializable 
                     foodConsumed.setText(String.valueOf(diet.getTotalCalories()));
                     sortListToTable();
                     updateProgressBar();
+                }
+                else{
+                    diet.setFoodListDay(new ArrayList<>());
                 }
             } else { //if diet retrieved is not today, create new day
                 diet.setFoodListDay(new ArrayList<>());
@@ -403,6 +417,10 @@ public class DietController extends Diet implements Initializable, Serializable 
         ArrayList<Food> sortedListDinner = new ArrayList<>();
         ArrayList<Food> sortedOther = new ArrayList<>();
         String mealName = "";
+        breakfastTotal = 0;
+        lunchTotal = 0;
+        dinnerTotal = 0;
+        otherTotal = 0;
         for (Food f: diet.getFoodListDay()){
             mealName = f.getMeal();
             switch (mealName){
@@ -419,6 +437,34 @@ public class DietController extends Diet implements Initializable, Serializable 
                     sortedOther.add(f);
             }
         }
+        for (Food s: sortedListBreakfast){
+            breakfastTotal += s.getCalories();
+        }
+        for (Food s: sortedListLunch){
+            lunchTotal += s.getCalories();
+        }
+        for (Food s: sortedListDinner){
+            dinnerTotal += s.getCalories();
+        }
+        for (Food s: sortedOther){
+            otherTotal += s.getCalories();
+        }
+
+        pieData = FXCollections.observableArrayList(
+                new PieChart.Data("Breakfast", breakfastTotal),
+                new PieChart.Data("Lunch,", lunchTotal),
+                new PieChart.Data("Dinner", dinnerTotal),
+                new PieChart.Data("Other", otherTotal)
+        );
+
+        mealBreakdown.setData(pieData);
+        mealBreakdown.setTitle("Meal breakdown");
+
+        labelBreakfast.setText("Breakfast, Total Calories: " + breakfastTotal);
+        labelLunch.setText("Lunch, Total Calories: " + lunchTotal);
+        labelDinner.setText("Dinner, Total Calories: " + dinnerTotal);
+        labelOther.setText("Other, Total Calories: " + otherTotal);
+
         breakfastTable.setItems(FXCollections.observableList(sortedListBreakfast));
         breakfastTable.getColumns().setAll(foodNameBreakfast, foodCaloriesBreakfast);
         lunchTable.setItems(FXCollections.observableList(sortedListLunch));
@@ -428,6 +474,8 @@ public class DietController extends Diet implements Initializable, Serializable 
         other.setItems(FXCollections.observableList(sortedOther));
         other.getColumns().setAll(foodNameOther, foodCaloriesOther);
     }
+
+
 
 
 }
