@@ -1,5 +1,8 @@
 package sample;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,6 +12,24 @@ public class Diet implements Serializable {
 
     private ArrayList<Food> foodList;
     private ArrayList<String> mealList;
+
+    public double getBarUpdater() {
+        return barUpdater.get();
+    }
+
+    public DoubleProperty barUpdaterProperty() {
+        if (barUpdater == null){
+            barUpdater = new SimpleDoubleProperty(0);
+        }
+        return barUpdater;
+    }
+
+
+    public void setBarUpdater(double barUpdater) {
+        this.barUpdaterProperty().set(barUpdater);
+    }
+
+    private transient DoubleProperty barUpdater;
 
     public ArrayList<Food> getFoodListDay() {
         return foodListDay;
@@ -20,10 +41,29 @@ public class Diet implements Serializable {
 
     private ArrayList<Food> foodListDay;
     private int targetCalories;
+
+    public void setTotalCalories(int totalCalories) {
+        this.totalCalories = totalCalories;
+    }
+
+    public void addTotalCalories(int totalCalories){
+        this.totalCalories += totalCalories;
+    }
+
     private int totalCalories;
     private transient boolean changesMade;
     private LocalDate date;
     private Food food;
+
+    public String getMeal() {
+        return meal;
+    }
+
+    public void setMeal(String meal) {
+        this.meal = meal;
+    }
+
+    private String meal;
 
     public ArrayList<LocalDate> getCalender() {
         return calender;
@@ -45,6 +85,17 @@ public class Diet implements Serializable {
     }
 
     HashMap<LocalDate, ArrayList<Food>> mapFoodDate;
+
+
+    public HashMap<LocalDate, Integer> getMapTargetDate() {
+        return mapTargetDate;
+    }
+
+    public void setMapTargetDate(HashMap<LocalDate, Integer> mapTargetDate) {
+        this.mapTargetDate = mapTargetDate;
+    }
+
+    HashMap<LocalDate, Integer> mapTargetDate;
 
 
     public Diet(){
@@ -128,6 +179,10 @@ public class Diet implements Serializable {
 
     public void saveCalories(int amount){
         this.savedCalories.add(amount);
+    }
+
+    public void descreaseCalories(int calories){
+        setTotalCalories(getTotalCalories() - calories);
     }
 
 }

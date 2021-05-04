@@ -5,23 +5,25 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<TabPane prefHeight="766.0" prefWidth="624.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.DietController">
+<TabPane prefHeight="871.0" prefWidth="624.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.DietController">
    <tabs>
       <Tab text="Add Food">
          <content>
             <VBox fx:id="layout" prefHeight="95.0" prefWidth="624.0">
                <HBox prefHeight="115.0" prefWidth="416.0">
                   <children>
-                      <ButtonBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="115.0" prefWidth="433.0">
+                      <ButtonBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="115.0" prefWidth="551.0">
                         <buttons>
                             <ChoiceBox fx:id="foodSelect" prefWidth="150.0" />
                             <ChoiceBox fx:id="mealSelect" minWidth="39.0" prefHeight="25.0" prefWidth="150.0" />
@@ -37,14 +39,13 @@
                </Label>
                <HBox prefHeight="41.0" prefWidth="624.0">
                   <children>
-                     <Label prefHeight="25.0" prefWidth="69.0" text="Food name" />
+                     <Label alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="100.0" text="Food name " />
                      <TextField fx:id="foodInput" prefHeight="25.0" prefWidth="122.0" />
-                     <Label prefHeight="25.0" prefWidth="55.0" text="   Calories" />
-                     <TextField fx:id="caloriesInput" prefHeight="25.0" prefWidth="124.0" />
+                     <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="25.0" prefWidth="63.0" text="Calories " />
+                     <TextField fx:id="caloriesInput" alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="124.0" />
                      <Button fx:id="addFood" mnemonicParsing="false" onAction="#handleAddFood" text="Add" />
                   </children>
                </HBox>
-               <HBox prefHeight="43.0" prefWidth="386.0" />
                <Label prefHeight="42.0" prefWidth="130.0" text="Add new meal">
                   <font>
                      <Font size="20.0" />
@@ -52,9 +53,33 @@
                </Label>
                <HBox prefHeight="43.0" prefWidth="386.0">
                   <children>
-                     <Label prefHeight="25.0" prefWidth="108.0" text="Meal name" />
+                     <Label alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="100.0" text="Meal name " />
                      <TextField fx:id="mealInput" prefHeight="25.0" prefWidth="122.0" />
                      <Button fx:id="addMeal" mnemonicParsing="false" onAction="#handleAddMeal" text="Add" />
+                  </children>
+               </HBox>
+               <Label prefHeight="42.0" prefWidth="220.0" text="Set target calorie">
+                  <font>
+                     <Font size="20.0" />
+                  </font>
+               </Label>
+               <HBox prefHeight="77.0" prefWidth="624.0">
+                  <children>
+                     <Label alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="100.0" text="Set target calorie " />
+                     <TextField fx:id="targetInput" prefHeight="25.0" prefWidth="122.0" />
+                     <Button fx:id="addTarget" mnemonicParsing="false" onAction="#handleAddTarget" text="Set" />
+                  </children>
+               </HBox>
+               <HBox prefHeight="43.0" prefWidth="624.0">
+                  <children>
+                     <ChoiceBox fx:id="foodSelect1" prefWidth="150.0" />
+                     <Button fx:id="removeFood" mnemonicParsing="false" onAction="#handleRemoveFood" text="Remove" />
+                  </children>
+               </HBox>
+               <HBox prefHeight="47.0" prefWidth="624.0">
+                  <children>
+                     <ChoiceBox fx:id="mealSelect1" minWidth="39.0" prefHeight="25.0" prefWidth="150.0" />
+                     <Button fx:id="removeMeal" mnemonicParsing="false" onAction="#handleRemoveMeal" text="Remove" />
                   </children>
                </HBox>
             </VBox>
@@ -62,17 +87,84 @@
       </Tab>
       <Tab text="View Diary">
          <content>
-            <ScrollPane prefHeight="200.0" prefWidth="200.0">
+            <ScrollPane prefHeight="836.0" prefWidth="624.0">
                <content>
-                  <VBox prefHeight="695.0" prefWidth="387.0">
+                  <VBox prefHeight="837.0" prefWidth="618.0">
                      <children>
-                        <DatePicker fx:id="datePicker" prefHeight="25.0" prefWidth="120.0" />
-                        <TableView fx:id="breakfastTable" prefHeight="130.0" prefWidth="387.0" />
+                        <DatePicker fx:id="datePicker" prefHeight="25.0" prefWidth="619.0" />
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="20.0" prefWidth="110.0" text="Goal" />
+                                    <Label fx:id="goalTarget" alignment="CENTER" prefHeight="144.0" prefWidth="100.0" text="goalTarget">
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="89.0" prefWidth="100.0" text="-">
+                                       <font>
+                                          <Font size="96.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="20.0" prefWidth="110.0" text="Food" />
+                                    <Label fx:id="foodConsumed" alignment="CENTER" prefHeight="137.0" prefWidth="100.0" text="foodConsumed">
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="143.0" prefWidth="100.0" text="=">
+                                       <font>
+                                          <Font size="96.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="20.0" prefWidth="110.0" text="Remaining" />
+                                    <Label fx:id="remainingCalories" alignment="CENTER" prefHeight="147.0" prefWidth="100.0" text="remainingCalories">
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="634.0" text="Progress" />
+                        <ProgressBar fx:id="progressBar" prefHeight="32.0" prefWidth="618.0" progress="0.0" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="631.0" text="Breakfast" />
+                        <TableView fx:id="breakfastTable" prefHeight="120.0" prefWidth="400.0" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="634.0" text="Lunch" />
+                        <TableView fx:id="lunchTable" prefHeight="120.0" prefWidth="400.0" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="634.0" text="Dinner" />
+                        <TableView fx:id="dinnerTable" prefHeight="120.0" prefWidth="400.0" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="634.0" text="Other" />
+                        <TableView fx:id="other" prefHeight="120.0" prefWidth="400.0" />
+                        <Button fx:id="removeSelectedFood" mnemonicParsing="false" text="Remove selected food" />
                      </children>
                   </VBox>
                </content>
             </ScrollPane>
          </content>
+      </Tab>
+      <Tab text="Data Report">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        </content>
       </Tab>
    </tabs>
 </TabPane>

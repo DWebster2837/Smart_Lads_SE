@@ -16,7 +16,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Diet.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("Food Diary");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root, 624, 766));
         primaryStage.show();
 
         controller = loader.getController();
@@ -24,6 +24,7 @@ public class Main extends Application {
             controller.closeHandle();
             Platform.exit();
         });
+
     }
 
 
