@@ -37,6 +37,7 @@ public class User {
         return diet;
     }
 
+
     public Goals getGoals() {
         return goals;
     }
