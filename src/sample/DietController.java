@@ -190,8 +190,4 @@ public class DietController extends Diet implements Initializable, Serializable 
         diet.setChangesMade(false);
     }
 
-
-
-
-
 }
