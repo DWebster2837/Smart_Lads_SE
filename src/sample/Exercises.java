@@ -2,26 +2,34 @@ package sample;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.*;
 
 public class Exercises {
+    private Exercise[] exercisearr;
+    private Map<String, Integer> exerciseTypes;
 
-    private Exercise[] multipleExercises;
-    private String[] exerciseType;
-
-    public static int getCaloriesInRange(LocalDate first, LocalDate last){
-        return 0;
+    public Exercises() {
+        exercisearr = new Exercise[]{};
+        exerciseTypes = new HashMap<>();
     }
 
-    public static Exercise[] getExerciseByName(String name){
-        return null;
+    public Exercise[] getExercisearr() {
+        return exercisearr;
     }
 
-    public static Exercise[] getExerciseByDate(LocalDate first, LocalDate last){
-        return null;
+    public Map<String, Integer> getExerciseTypes() {
+        return exerciseTypes;
     }
 
-    public static Exercise[] getExercises(){
-        return null;
+    public int getCaloriesinRange(Date start, Date end){
+        return Arrays.stream(exercisearr)
+                .filter((x) -> x.getDate().before(end) & x.getDate().after(start))
+                .mapToInt(Exercise::getCalories)
+                .sum();
     }
 
     public static boolean addExercise(String name, int distance, Duration duration){
@@ -36,7 +44,11 @@ public class Exercises {
         return false;
     }
 
-    public static String[] getTypes(){
+    public static Exercise[] getExerciseByName(String name){
+        return null;
+    }
+
+    public static Exercise[] getExerciseByDate(LocalDate first, LocalDate last){
         return null;
     }
 }

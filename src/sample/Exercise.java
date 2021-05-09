@@ -1,13 +1,39 @@
 package sample;
 
-import java.time.Duration;
-import java.time.LocalDate;
+import java.util.Date;
 
 public class Exercise {
+    private String name;
+    private Date date;
+    private int calories;
 
-    String name;
-    LocalDate date;
-    Duration duration;
-    int caloriesBurnt;
+    public Exercise(String name, Date date, int calories) {
+        this.name = name;
+        this.date = date;
+        this.calories = calories;
+    }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public int getCalories() {
+        return calories;
+    }
+
+    public void setCalories(int calories) {
+        this.calories = calories;
+    }
 }
