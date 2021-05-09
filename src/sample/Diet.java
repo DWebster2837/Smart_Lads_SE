@@ -3,11 +3,22 @@ package sample;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Diet implements Serializable {
 
     private ArrayList<Food> foodList;
     private ArrayList<String> mealList;
+
+    public ArrayList<Food> getFoodListDay() {
+        return foodListDay;
+    }
+
+    public void setFoodListDay(ArrayList<Food> foodListDay) {
+        this.foodListDay = foodListDay;
+    }
+
+    private ArrayList<Food> foodListDay;
     private int targetCalories;
     private int totalCalories;
     private transient boolean changesMade;
@@ -24,6 +35,16 @@ public class Diet implements Serializable {
 
     private ArrayList<LocalDate> calender;
     private ArrayList<Integer> savedCalories;
+
+    public HashMap<LocalDate, ArrayList<Food>> getMapFoodDate() {
+        return mapFoodDate;
+    }
+
+    public void setMapFoodDate(HashMap<LocalDate, ArrayList<Food>> mapFoodDate) {
+        this.mapFoodDate = mapFoodDate;
+    }
+
+    HashMap<LocalDate, ArrayList<Food>> mapFoodDate;
 
 
     public Diet(){

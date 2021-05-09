@@ -66,7 +66,6 @@
                <content>
                   <VBox prefHeight="695.0" prefWidth="387.0">
                      <children>
-                        <Label fx:id="date" text="black" />
                         <DatePicker fx:id="datePicker" prefHeight="25.0" prefWidth="120.0" />
                         <TableView fx:id="breakfastTable" prefHeight="130.0" prefWidth="387.0" />
                      </children>
