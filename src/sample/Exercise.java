@@ -1,39 +1,36 @@
 package sample;
 
-import java.util.Date;
+import java.io.Serializable;
+import java.time.Duration;
+import java.time.LocalDate;
 
-public class Exercise {
-    private String name;
-    private Date date;
-    private int calories;
+public class Exercise implements Serializable {
 
-    public Exercise(String name, Date date, int calories) {
-        this.name = name;
+    private static final long serialVersionUID = 1L;
+
+    String type;
+    LocalDate date;
+    Duration duration;
+    int caloriesBurnt;
+    int numOfStrokes;
+    int distance;
+    int steps;
+
+
+    public Exercise(String type, LocalDate date, Duration duration, int caloriesBurnt, int numOfstrokes, int distance, int steps){
+        this.type = type;
         this.date = date;
-        this.calories = calories;
+        this.duration = duration;
+        this.caloriesBurnt = caloriesBurnt;
+        this.numOfStrokes = numOfstrokes;
+        this.distance = distance;
+        this.steps = steps;
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public String toString() {
+        return date + " " + type;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public int getCalories() {
-        return calories;
-    }
-
-    public void setCalories(int calories) {
-        this.calories = calories;
-    }
 }

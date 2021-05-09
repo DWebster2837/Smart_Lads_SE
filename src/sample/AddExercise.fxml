@@ -4,15 +4,17 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="448.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ExerciseController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="448.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AddExerciseController">
    <children>
       <GridPane layoutX="16.0" layoutY="56.0" prefHeight="285.0" prefWidth="311.0">
         <columnConstraints>
@@ -48,13 +50,31 @@
             <Label fx:id="stepLabel" text="Steps" GridPane.rowIndex="5" />
          </children>
       </GridPane>
-      <Button layoutX="149.0" layoutY="372.0" mnemonicParsing="false" onAction="#add" text="Add" />
       <Label layoutX="114.0" layoutY="37.0" text=" Add exercise">
          <font>
             <Font size="18.0" />
          </font></Label>
       <TextField fx:id="strokesField" layoutX="135.0" layoutY="347.0" />
       <Label fx:id="strokesLabel" layoutX="16.0" layoutY="351.0" text="Swimming strokes" />
-      <Label fx:id="errorMsg" alignment="CENTER" contentDisplay="TEXT_ONLY" layoutX="26.0" layoutY="404.0" pickOnBounds="false" text="error message" textAlignment="CENTER" textFill="#e50f0f" textOverrun="CLIP" wrapText="true" />
+      <VBox alignment="TOP_CENTER" layoutY="373.0" prefHeight="75.0" prefWidth="335.0">
+         <children>
+            <Label fx:id="message" alignment="CENTER" contentDisplay="TEXT_ONLY" pickOnBounds="false" text="error message" textAlignment="CENTER" textFill="#e50f0f" textOverrun="CLIP" wrapText="true" />
+            <Button mnemonicParsing="false" onAction="#add" text="Add" />
+            <Label fx:id="success" text="Exercise added successfully" />
+         </children>
+      </VBox>
+      <SplitPane fx:id="goalFinish" layoutX="39.0" layoutY="55.0" prefHeight="260.0" prefWidth="266.0">
+         <items>
+            <VBox alignment="CENTER" prefHeight="318.0" prefWidth="259.0" spacing="20.0">
+               <children>
+                  <Label fx:id="congrats" contentDisplay="CENTER" text="Congratulations! You ran 100 metre from x to y" />
+                  <Label fx:id="challenge" text="Are you willing to do 150 metres for x days/weeks/months starting from" textAlignment="CENTER" wrapText="true" />
+                  <DatePicker />
+                  <Button mnemonicParsing="false" text="Accept" />
+                  <Button mnemonicParsing="false" text="Decline" />
+               </children>
+            </VBox>
+         </items>
+      </SplitPane>
    </children>
 </Pane>

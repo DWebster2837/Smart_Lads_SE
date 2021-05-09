@@ -1,54 +1,104 @@
 package sample;
 
+import java.io.*;
 import java.time.Duration;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.*;
 
-public class Exercises {
-    private Exercise[] exercisearr;
-    private Map<String, Integer> exerciseTypes;
+public class Exercises implements Serializable {
 
-    public Exercises() {
-        exercisearr = new Exercise[]{};
-        exerciseTypes = new HashMap<>();
-    }
+    private static final long serialVersionUID = 1L;
 
-    public Exercise[] getExercisearr() {
-        return exercisearr;
-    }
+    private HashSet<Exercise> multipleExercises = new HashSet<>();
+    private String[] exerciseType;
 
-    public Map<String, Integer> getExerciseTypes() {
-        return exerciseTypes;
-    }
+    static String fileName = "exercise.ser";
 
-    public int getCaloriesinRange(Date start, Date end){
-        return Arrays.stream(exercisearr)
-                .filter((x) -> x.getDate().before(end) & x.getDate().after(start))
-                .mapToInt(Exercise::getCalories)
-                .sum();
-    }
+    public static int getCaloriesInRange(LocalDate first, LocalDate last){
 
-    public static boolean addExercise(String name, int distance, Duration duration){
-        return false;
-    }
-
-    public static boolean addExercise(String name, Duration duration){
-        return false;
-    }
-
-    public static boolean removeExercise(Exercise exercise){
-        return false;
+        return 0;
     }
 
     public static Exercise[] getExerciseByName(String name){
         return null;
     }
 
-    public static Exercise[] getExerciseByDate(LocalDate first, LocalDate last){
+    public static HashSet<Exercise> getExerciseByDate(LocalDate first, LocalDate last){
+
         return null;
     }
+
+    public static HashSet<Exercise> loadExercises() throws IOException, ClassNotFoundException {
+
+        FileInputStream fis = new FileInputStream(fileName);
+        ObjectInputStream is = new ObjectInputStream(fis);
+        Exercises ex= (Exercises) is.readObject();
+        return ex.multipleExercises;
+
+    }
+
+    public void addExercise(Exercise exercise){
+
+        multipleExercises.add(exercise);
+
+    }
+
+    public void copyExercises(HashSet<Exercise> ex){
+        multipleExercises = ex;
+    }
+
+    public static void saveExercises(Exercises ex) throws IOException {
+        FileOutputStream fos = new FileOutputStream(fileName);
+        ObjectOutputStream os = new ObjectOutputStream(fos);
+        os.writeObject(ex);
+        os.close();
+        System.out.println("Exercises saved");
+    }
+
+    public void remove(Exercise exercise) throws IOException, ClassNotFoundException {
+
+        Goals gs = new Goals();
+
+        for(Exercise e : multipleExercises){
+            if (e.type.equals(exercise.type) && e.date.equals(exercise.date) && e.duration.getSeconds() == exercise.duration.getSeconds()
+                    && e.caloriesBurnt == exercise.caloriesBurnt && e.numOfStrokes == exercise.numOfStrokes
+                    && e.distance == exercise.distance && e.steps == exercise.steps){
+                multipleExercises.remove(e);
+                for(Goal g : loadGoals()){
+                    if(exercise.type.equals("Walking") && g.goalType.equals("Walk Distance")){
+                        g.currentValue -= exercise.distance;
+                    }
+                    else if(exercise.type.equals("Running") && g.goalType.equals("Run Distance")) {
+                        g.currentValue -= exercise.distance;
+                    }
+                    else if(exercise.type.equals("Swimming") && g.goalType.equals("Swim Distance")) {
+                        g.currentValue -= exercise.distance;
+                    }
+
+                    if((exercise.type.equals("Walking")||exercise.type.equals("Running")) && g.goalType.equals("Steps")){
+                        g.currentValue -= exercise.steps;
+                    }
+
+                    if(g.goalType.equals("Calories Burnt")){
+                        g.currentValue -= exercise.caloriesBurnt;
+                    }
+                    if(g.currentValue < g.targetValue && g.state.equals("Beaten")){
+                        g.state = "On Track";
+                    }
+                    gs.addGoal(g);
+                }
+                break;
+            }
+        }
+
+        saveGoals(gs);
+    }
+
+
+
+    public static String[] getTypes(){
+        return null;
+    }
+
 }
