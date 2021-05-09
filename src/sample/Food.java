@@ -1,33 +1,53 @@
 package sample;
 
-import java.util.HashSet;
-import java.util.Objects;
+import java.io.Serializable;
 
-public class Food {
-    protected String foodName;
-    protected int calories;
-    protected Meal mealType;
-    public HashSet<Food> foodList = new HashSet<Food>();
+public class Food implements Serializable {
 
-    Food(String foodName, int calories, Meal mealType){
+    private String foodName;
+    private int calories;
+
+    public String getMeal() {
+        return meal;
+    }
+
+    public void setMeal(String meal) {
+        this.meal = meal;
+    }
+
+    private String meal;
+
+    public String getFoodName(){
+        return foodName;
+    }
+
+    public int getCalories(){
+        return calories;
+    }
+
+    public void setFoodName(){
+        this.foodName = foodName;
+    }
+
+    public void setCalories(){
+        this.calories = calories;
+    }
+
+    Food(String foodName, int calories, String meal){
         this.foodName = foodName;
         this.calories = calories;
-        this.mealType = mealType;
-        Food food = new Food(foodName, calories, mealType);
-        foodList.add(food);
+        this.meal = meal;
+    }
+    Food(String foodName, int calories){
+        this.foodName = foodName;
+        this.calories = calories;
+        this.meal = "Other";
     }
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Food)) return false;
-        Food food = (Food) o;
-        return calories == food.calories && Objects.equals(foodName, food.foodName) && Objects.equals(mealType, food.mealType) && Objects.equals(foodList, food.foodList);
+
+    public String toString(){
+        return getFoodName() + " " + getCalories();
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(foodName, calories, mealType, foodList);
-    }
 }
