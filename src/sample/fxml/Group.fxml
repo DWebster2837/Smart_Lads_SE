@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane alignment="center" hgap="20" vgap="20" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GroupController">
+    <padding><Insets bottom="10" left="25" right="25" top="10" /></padding>
+
+    <!--Drop down menu for group selection-->
+    <ComboBox fx:id="groupName" prefHeight="25.0" prefWidth="159.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="group1" />
+                <String fx:value="group2" />
+                <String fx:value="group3" />
+                <String fx:value="group4" />
+                <String fx:value="group5" />
+            </FXCollections>
+        </items>
+    </ComboBox>
+    <!--email of the user to send the invite to-->
+    <Label text="Email:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+    <TextField fx:id="email" prefHeight="25.0" prefWidth="164.0" promptText="asd213asd@uea.ac.uk" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+    <!--send invite button-->
+    <Button fx:id="sendInviteButton" onAction="#sendGroupInvite" text="Send invite" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+
+    <!--send invite button-->
+    <Label text="GroupID:" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+    <TextField fx:id="groupID" promptText="" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+    <Button onAction="#joinById" text="Join by ID" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+
+    <!--cancel button-->
+    <Button onAction="#goBack" text="Go back" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+   <Label text="GroupID:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints maxWidth="95.0" minWidth="10.0" prefWidth="50.0" />
+      <ColumnConstraints maxWidth="209.0" minWidth="112.0" prefWidth="189.0" />
+      <ColumnConstraints maxWidth="229.0" minWidth="0.0" prefWidth="193.0" />
+      <ColumnConstraints maxWidth="266.0" minWidth="10.0" prefWidth="78.0" />
+      <ColumnConstraints maxWidth="382.0" minWidth="10.0" prefWidth="182.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
+
+</GridPane>

@@ -162,5 +162,11 @@ public class CreateGoalController extends Goals implements Initializable, Serial
     }
 
     public void cancelButtonClicked(ActionEvent actionEvent) {
+        try {
+            Main.changeStage(Main.class.getResource("fxml/Dashboard.fxml"), 670d, 452d);
+        }
+        catch(Exception e){
+            throw new RuntimeException(e);
+        }
     }
 }

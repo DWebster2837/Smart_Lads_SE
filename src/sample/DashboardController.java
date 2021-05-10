@@ -22,11 +22,10 @@ public class DashboardController implements Initializable {
 
     public void userGroupButtonClick(ActionEvent actionEvent) {
         try {
-            //TODO: make the fukin group window
-            Main.changeStage(Main.class.getResource("fxml/Login.fxml"), 670d, 452d);
+            Main.changeStage(Main.class.getResource("fxml/Group.fxml"), 670d, 452d);
         }
         catch(Exception e){
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 
@@ -44,7 +43,7 @@ public class DashboardController implements Initializable {
             Main.changeStage(Main.class.getResource("fxml/viewExercise.fxml"), 670d, 452d);
         }
         catch(Exception e){
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 
@@ -53,7 +52,7 @@ public class DashboardController implements Initializable {
             Main.changeStage(Main.class.getResource("fxml/viewProgress.fxml"), 670d, 452d);
         }
         catch(Exception e){
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }*/
         //TODO: the distinct lack of goal view
     }
@@ -68,7 +67,7 @@ public class DashboardController implements Initializable {
             Main.changeStage(Main.class.getResource("fxml/Login.fxml"), 670d, 452d);
         }
         catch(Exception e){
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 

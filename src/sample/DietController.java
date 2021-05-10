@@ -203,7 +203,7 @@ public class DietController extends Diet implements Initializable{
             Main.changeStage(Main.class.getResource("fxml/Dashboard.fxml"), 670d, 452d);
         }
         catch(Exception e){
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 }

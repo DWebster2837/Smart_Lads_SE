@@ -45,7 +45,7 @@ public class RegistrationController{
 
         }
         catch(Exception e){
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 
@@ -55,7 +55,7 @@ public class RegistrationController{
             Main.changeStage(Main.class.getResource("fxml/Login.fxml"), 670d, 452d);
         }
         catch(Exception e){
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 }
