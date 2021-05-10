@@ -12,6 +12,8 @@ import java.util.ResourceBundle;
 
 public class CreateGoalController extends Goals implements Initializable, Serializable {
 
+    public Button cancelButton;
+    public ToggleGroup goalGroup;
     Goals goals = User.curUser.getGoals();
 
     LocalDate start, end;
@@ -159,4 +161,6 @@ public class CreateGoalController extends Goals implements Initializable, Serial
 
     }
 
+    public void cancelButtonClicked(ActionEvent actionEvent) {
+    }
 }

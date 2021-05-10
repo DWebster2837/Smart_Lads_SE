@@ -22,6 +22,7 @@ public class AddExerciseController extends Exercises implements Initializable, S
 
     @Serial
     private static final long serialVersionUID = 1L;
+    public Button cancelButton;
 
     Exercises exercises = User.curUser.getExercises();
 
@@ -309,5 +310,14 @@ public class AddExerciseController extends Exercises implements Initializable, S
     public void onDecline(ActionEvent actionEvent){
         goalFinish.setVisible(false);
         loopGoals();
+    }
+
+    public void cancelButtonClicked(ActionEvent actionEvent) {
+        try {
+            Main.changeStage(Main.class.getResource("fxml/Dashboard.fxml"), 670d, 452d);
+        }
+        catch(Exception e){
+            throw new RuntimeException();
+        }
     }
 }

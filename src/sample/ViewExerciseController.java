@@ -25,6 +25,7 @@ public class ViewExerciseController implements Initializable {
     public Label popupTitle, duration, calories, distance, other;
     public Button removeBtn;
     public Button showAllBtn;
+    public Button cancelButton;
     Exercises curExer = User.curUser.getExercises();
     ObservableList<Exercise> exercisesList = FXCollections.observableArrayList(curExer.getExercises());
 
@@ -142,4 +143,12 @@ public class ViewExerciseController implements Initializable {
         listExercise.setItems(exercisesList);
     }
 
+    public void cancelButtonClicked(ActionEvent actionEvent) {
+        try {
+            Main.changeStage(Main.class.getResource("fxml/Dashboard.fxml"), 670d, 452d);
+        }
+        catch(Exception e){
+            throw new RuntimeException();
+        }
+    }
 }

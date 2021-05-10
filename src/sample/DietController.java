@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
 
 import java.io.*;
 import java.net.URL;
@@ -16,6 +17,11 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class DietController extends Diet implements Initializable, Serializable {
+    public Button cancelButton;
+    public Button addMeal;
+    public Button addFoodDiary;
+    public VBox layout;
+    public Button addFood;
     private Diet diet;
     private User user;
     @FXML
@@ -190,4 +196,12 @@ public class DietController extends Diet implements Initializable, Serializable 
         diet.setChangesMade(false);
     }
 
+    public void cancelButtonClicked(ActionEvent actionEvent) {
+        try {
+            Main.changeStage(Main.class.getResource("fxml/Dashboard.fxml"), 670d, 452d);
+        }
+        catch(Exception e){
+            throw new RuntimeException();
+        }
+    }
 }
