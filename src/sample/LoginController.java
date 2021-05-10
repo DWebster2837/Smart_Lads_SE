@@ -25,6 +25,7 @@ public class LoginController implements Initializable {
 
     public Button loginButton;
     public AnchorPane lockImageView1;
+    public Button registerButton;
     @FXML
     private Button cancelButton;
     @FXML
@@ -76,13 +77,15 @@ public class LoginController implements Initializable {
     public void validateLogin() {
         if(Account.attemptLogin(usernameTextField.getText(), userPasswordField.getText())){
             try {
-                //Parent dashboard = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("fxml/Dashboard.fxml")));
-                //TODO:plug dashboard here
+                Main.changeStage(Main.class.getResource("fxml/Dashboard.fxml"), 670d, 452d);
 
             }
             catch(Exception e){
                 throw new RuntimeException();
             }
+        }
+        else{
+            loginMessageLabel.setText("Password incorrect");
         }
     }
 }

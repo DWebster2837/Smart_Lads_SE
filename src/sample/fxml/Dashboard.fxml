@@ -1,91 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <AnchorPane layoutX="257.0" layoutY="-1.0" prefHeight="400.0" prefWidth="345.0" />
-      <Label layoutX="8.0" layoutY="7.0" prefHeight="30.0" prefWidth="178.0" text="USER DASHBOARD" textFill="#0d52f2">
-         <font>
-            <Font name="Bernard MT Condensed" size="24.0" />
-         </font>
-      </Label>
-      <VBox layoutX="8.0" layoutY="37.0" prefHeight="354.0" prefWidth="209.0">
-         <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <ImageView fitHeight="74.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="../../../Images/user.png" />
-                     </image>
-                  </ImageView>
-                  <VBox prefHeight="100.0" prefWidth="320.0">
-                     <children>
-                        <Label text="First Name" textAlignment="CENTER">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                        <Label text="Height" />
-                        <Label text="Weight" />
-                        <Label text="BMI" />
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-            <VBox prefHeight="256.0" prefWidth="210.0">
-               <children>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="60.0" prefWidth="126.0">
-                     <children>
-                        <ImageView fitHeight="55.0" fitWidth="108.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="../../../Images/group.jpg" />
-                           </image>
-                        </ImageView>
-                        <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="102.0" text="User Groups" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="62.0" prefWidth="210.0">
-                     <children>
-                        <ImageView fitHeight="57.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="../../../Images/food.png" />
-                           </image>
-                        </ImageView>
-                        <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="102.0" text="Diet" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="67.0" prefWidth="210.0">
-                     <children>
-                        <ImageView fitHeight="57.0" fitWidth="108.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="../../../Images/excercise.png" />
-                           </image>
-                        </ImageView>
-                        <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="102.0" text="Excercise" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="70.0" prefWidth="210.0">
-                     <children>
-                        <ImageView fitHeight="57.0" fitWidth="108.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="../../../Images/goal.png" />
-                           </image>
-                        </ImageView>
-                        <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="102.0" text="Goals" />
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-         </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.DashboardController">
+   <AnchorPane layoutX="257.0" layoutY="-1.0" prefHeight="400.0" prefWidth="345.0" />
+   <Label layoutX="8.0" layoutY="7.0" prefHeight="30.0" prefWidth="178.0" text="USER DASHBOARD" textFill="#0d52f2">
+      <font>
+         <Font name="Bernard MT Condensed" size="24.0" />
+      </font>
+   </Label>
+   <VBox layoutX="8.0" layoutY="37.0" prefHeight="354.0" prefWidth="209.0">
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <ImageView fitHeight="74.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../../Images/user.png" />
+         </ImageView>
+         <VBox prefHeight="100.0" prefWidth="320.0">
+            <Label text="First Name" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label text="Height" />
+            <Label text="Weight" />
+            <Label text="BMI" />
+         </VBox>
+      </HBox>
+      <VBox prefHeight="256.0" prefWidth="210.0">
+         <HBox alignment="CENTER_RIGHT" prefHeight="60.0" prefWidth="126.0">
+            <ImageView fitHeight="55.0" fitWidth="108.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@../../../Images/group.jpg" />
+            </ImageView>
+            <Button fx:id="userGroupButton" mnemonicParsing="false" onAction="#userGroupButtonClick" prefHeight="39.0" prefWidth="102.0" text="User Groups" />
+         </HBox>
+         <HBox alignment="CENTER_RIGHT" prefHeight="62.0" prefWidth="210.0">
+            <ImageView fitHeight="57.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@../../../Images/food.png" />
+            </ImageView>
+            <Button fx:id="dietButton" mnemonicParsing="false" onAction="#dietButtonClick" prefHeight="39.0" prefWidth="102.0" text="Diet" />
+         </HBox>
+         <HBox alignment="CENTER_RIGHT" prefHeight="67.0" prefWidth="210.0">
+            <ImageView fitHeight="57.0" fitWidth="108.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@../../../Images/excercise.png" />
+            </ImageView>
+            <Button fx:id="exerciseButton" mnemonicParsing="false" onAction="#exerciseButtonClick" prefHeight="39.0" prefWidth="102.0" text="Exercise" />
+         </HBox>
+         <HBox alignment="CENTER_RIGHT" prefHeight="70.0" prefWidth="210.0">
+            <ImageView fitHeight="57.0" fitWidth="108.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@../../../Images/goal.png" />
+            </ImageView>
+            <Button fx:id="goalButton" mnemonicParsing="false" onAction="#goalButtonClick" prefHeight="39.0" prefWidth="102.0" text="Goals" />
+         </HBox>
       </VBox>
-   </children>
+   </VBox>
 </AnchorPane>

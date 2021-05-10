@@ -9,7 +9,7 @@ import java.io.*;
 import java.util.stream.*;
 
 public class Account implements Serializable{
-    private static Account[] accounts = loadAccounts(Paths.get(""));
+    private static Account[] accounts = loadAccounts();
     private final int userID;
     private final String password;
     private final String username;
@@ -55,7 +55,8 @@ public class Account implements Serializable{
     }
 
     public boolean checkPassword(String pass){
-        return password.equals(hashString(pass));
+        String hash = hashString(pass);
+        return password.equals(hash);
     }
 
     private void writeAccount(File file){
@@ -93,14 +94,16 @@ public class Account implements Serializable{
         return loadAccount(file);
     }
 
-    private static Account[] loadAccounts(Path folderPath){
+    private static Account[] loadAccounts(){
         File[] files;
         try {
+            Path folderPath = Paths.get("accounts");
             Stream<Path> stream = Files.list(folderPath).filter(Files::isRegularFile);
-            PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob: *.txt");
+            PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:**.ser");
             //stream.filter((f) -> f.toString().toLowerCase().endsWith(".txt"));
             //technically either of these work; im assuming the thingy for the purpose is better.
-            files = stream.filter(matcher::matches).map(Path::toFile).toArray(File[]::new);
+            Stream<File> matches = stream.filter(matcher::matches).map(Path::toFile);
+            files = matches.toArray(File[]::new);
             stream.close();
         }
         catch(Exception e){ throw new RuntimeException(e);}
@@ -114,13 +117,17 @@ public class Account implements Serializable{
 
     public static boolean attemptLogin(String username, String password){
         //return null on fail
-        Account attempt = Arrays.stream(accounts).filter(x->x.username == username).findFirst().orElse(null);
-        if(attempt == null){ return false;}
+        Account attempt = Arrays.stream(accounts).filter(x->x.username.equals(username)).findFirst().orElse(null);
+        if(attempt == null){
+            return false;
+        }
         if(attempt.checkPassword(password)){
             User.curUser = User.loadUser(attempt.userID);
             return true;
         }
-        else{ return false;}
+        else{
+            return false;
+        }
     }
 
     public static User registerUser(String username, String email, String password){
@@ -135,7 +142,7 @@ public class Account implements Serializable{
 
         Account newAcc = new Account(id, password, username, email);
         User newUser = new User(id, newAcc);
-        newAcc.writeAccount(new File("accounts/" + id + ".txt"));
+        newAcc.writeAccount(new File("accounts/" + id + ".ser"));
         newUser.saveUser();
         User.curUser = newUser;
         return newUser;

@@ -40,7 +40,13 @@ public class RegistrationController{
         User.curUser.setFirstname(firstnameTextField.getText());
         User.curUser.setLastname(lastnameTextField.getText());
 
-        //TODO:go to dashboard after register
+        try {
+            Main.changeStage(Main.class.getResource("fxml/Dashboard.fxml"), 670d, 452d);
+
+        }
+        catch(Exception e){
+            throw new RuntimeException();
+        }
     }
 
     //go back to login
