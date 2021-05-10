@@ -25,8 +25,8 @@ public class ViewExerciseController implements Initializable {
     public Label popupTitle, duration, calories, distance, other;
     public Button removeBtn;
     public Button showAllBtn;
-
-    ObservableList<Exercise> exercisesList = FXCollections.observableArrayList(Exercises.loadExercises());
+    Exercises curExer = User.curUser.getExercises();
+    ObservableList<Exercise> exercisesList = FXCollections.observableArrayList(curExer.getExercises());
 
     public ViewExerciseController() throws IOException, ClassNotFoundException {
     }
@@ -110,12 +110,12 @@ public class ViewExerciseController implements Initializable {
         Exercises exercises = new Exercises();
 
         Exercise ex = listExercise.getSelectionModel().getSelectedItem();
-        HashSet<Exercise> temp = Exercises.loadExercises();
+        HashSet<Exercise> temp = curExer.getExercises();
         exercises.copyExercises(temp);
         exercises.remove(ex);
-        Exercises.saveExercises(exercises);
+        User.curUser.saveUser();
 
-        exercisesList = FXCollections.observableArrayList(Exercises.loadExercises());
+        exercisesList = FXCollections.observableArrayList(curExer.getExercises());
         ObservableList<Exercise> updatedExercises = FXCollections.observableArrayList();
 
         LocalDate ld = date.getValue();
@@ -138,7 +138,7 @@ public class ViewExerciseController implements Initializable {
     }
 
     public void showAll(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
-        exercisesList = FXCollections.observableArrayList(Exercises.loadExercises());
+        exercisesList = FXCollections.observableArrayList(curExer.getExercises());
         listExercise.setItems(exercisesList);
     }
 
