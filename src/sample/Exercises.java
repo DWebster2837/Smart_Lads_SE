@@ -58,14 +58,14 @@ public class Exercises implements Serializable {
 
     public void remove(Exercise exercise) throws IOException, ClassNotFoundException {
 
-        Goals gs = new Goals();
+        Goals gs = User.curUser.getGoals();
 
         for(Exercise e : multipleExercises){
             if (e.type.equals(exercise.type) && e.date.equals(exercise.date) && e.duration.getSeconds() == exercise.duration.getSeconds()
                     && e.caloriesBurnt == exercise.caloriesBurnt && e.numOfStrokes == exercise.numOfStrokes
                     && e.distance == exercise.distance && e.steps == exercise.steps){
                 multipleExercises.remove(e);
-                for(Goal g : loadGoals()){
+                for(Goal g : gs.getGoals()){
                     if(exercise.type.equals("Walking") && g.goalType.equals("Walk Distance")){
                         g.currentValue -= exercise.distance;
                     }
@@ -92,7 +92,7 @@ public class Exercises implements Serializable {
             }
         }
 
-        saveGoals(gs);
+        //saveGoals(gs);
     }
 
 

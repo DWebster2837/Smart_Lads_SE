@@ -11,6 +11,7 @@ public class User {
     private Diet diet;
     private Goals goals;
     private Account account;
+    public static User curUser;
 
     public User(int userID, Account account) {
         this.userID = userID;
@@ -59,3 +60,4 @@ public class User {
         }
     }
 }
+

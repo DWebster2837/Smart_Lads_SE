@@ -6,7 +6,7 @@ import java.util.HashSet;
 
 public class Goals implements Serializable {
 
-    static String fileName = "goal.ser";
+    //static String fileName = "goal.ser";
 
     private HashSet<Goal> goalsSet = new HashSet<>();
 
@@ -24,13 +24,15 @@ public class Goals implements Serializable {
         return new HashSet<>();
     }
 
-    public HashSet<Goal> getCompleteGoals(){
-        return new HashSet<>();
-    }
+    //public HashSet<Goal> getCompleteGoals(){
+    //    return new HashSet<>();
+    //}
 
-    public HashSet<Goal> getFailedGoals(){
-        return new HashSet<>();
-    }
+    //public HashSet<Goal> getFailedGoals(){
+    //    return new HashSet<>();
+    //}
+
+    public HashSet<Goal> getGoals(){ return goalsSet; }
 
     public void addGoal(Goal goal){
         goalsSet.add(goal);
@@ -40,6 +42,7 @@ public class Goals implements Serializable {
         goalsSet.remove(goal);
     }
 
+    /*
     public static void saveGoals(Goals goals) throws IOException {
         FileOutputStream fos = new FileOutputStream(fileName);
         ObjectOutputStream os = new ObjectOutputStream(fos);
@@ -54,7 +57,7 @@ public class Goals implements Serializable {
         Goals g = (Goals) is.readObject();
         return g.goalsSet;
     }
-
+    */
 
 
 

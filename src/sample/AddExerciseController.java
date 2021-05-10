@@ -14,14 +14,14 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-import static sample.Goals.loadGoals;
-import static sample.Goals.saveGoals;
+//import static sample.Goals.loadGoals;
+//import static sample.Goals.saveGoals;
 
 public class AddExerciseController extends Exercises implements Initializable, Serializable{
 
     private static final long serialVersionUID = 1L;
 
-    Exercises exercises = new Exercises();
+    Exercises exercises = User.curUser.getExercises();
 
     String type;
     Duration duration;
@@ -92,13 +92,13 @@ public class AddExerciseController extends Exercises implements Initializable, S
         }
 
         try {
-            for (Goal g : loadGoals()) {
+            for (Goal g : User.curUser.getGoals().getGoals()) {
                 if(g.end.isBefore(LocalDate.now()) && g.currentValue < g.targetValue && g.state.equals("On Track")){
                     g.state = "Failed";
                 }
                 System.out.println(g);
             }
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -234,7 +234,7 @@ public class AddExerciseController extends Exercises implements Initializable, S
 
             loopGoals();
 
-            for(Goal goals : loadGoals()){
+            for(Goal goals : User.curUser.getGoals().getGoals()){
                 System.out.println(goals);
             }
 
@@ -248,9 +248,9 @@ public class AddExerciseController extends Exercises implements Initializable, S
     public void loopGoals() throws IOException, ClassNotFoundException {
         String verb = "";
         String unit = "";
-        gs = new Goals();
+        gs = User.curUser.getGoals();
 
-        for(Goal g: loadGoals()){
+        for(Goal g: gs.getGoals()){
             if(g.state.equals("On Track") && (g.start.equals(exercise.date) || g.start.isBefore(exercise.date))
                     && (g.end.isAfter(exercise.date) || g.end.equals(exercise.date))){
 
@@ -302,7 +302,7 @@ public class AddExerciseController extends Exercises implements Initializable, S
 
             gs.addGoal(g);
         }
-        saveGoals(gs);
+        //saveGoals(gs);
     }
 
     public void onAccept(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
@@ -313,7 +313,7 @@ public class AddExerciseController extends Exercises implements Initializable, S
                 , g.goalType, "On Track", 0));
          */
 
-        saveGoals(gs);
+        //saveGoals(gs);
     }
 
     public void onDecline(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
