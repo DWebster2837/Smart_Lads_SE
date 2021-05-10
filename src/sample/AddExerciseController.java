@@ -220,7 +220,7 @@ public class AddExerciseController extends Exercises implements Initializable, S
             exercise = new Exercise(type, date, duration, calories, strokes, distance, steps);
 
             exercises.addExercise(exercise);
-            //saveExercises(exercises);
+            User.curUser.saveUser();
 
             for(Exercise ex: exercises.getExercises()){
                 System.out.println(ex);
@@ -296,14 +296,14 @@ public class AddExerciseController extends Exercises implements Initializable, S
 
             gs.addGoal(g);
         }
-        //saveGoals(gs);
+        User.curUser.saveUser();
     }
 
     public void onAccept(ActionEvent actionEvent){
         goalFinish.setVisible(false);
         loopGoals();
 
-        //saveGoals(gs);
+        User.curUser.saveUser();
     }
 
     public void onDecline(ActionEvent actionEvent){

@@ -65,6 +65,12 @@ public class Account implements Serializable{
             throw new RuntimeException(e);
         }
     }
+
+    public void saveAccount(){
+        File file = new File("accounts/" + userID + ".ser");
+        writeAccount(file);
+    }
+
     private static Account loadAccount(File file){
         try{
             FileInputStream finstr = new FileInputStream(file);
@@ -77,6 +83,11 @@ public class Account implements Serializable{
             throw new RuntimeException(e);
         }
     }
+    public static Account loadAccount(int userID){
+        File file = new File("accounts/" + userID + ".ser");
+        return loadAccount(file);
+    }
+
     private static Account[] loadAccounts(Path folderPath){
         File[] files;
         try {
@@ -100,7 +111,7 @@ public class Account implements Serializable{
         Account newAcc = new Account(id, password, username, email);
         User newUser = new User(id, newAcc);
         newAcc.writeAccount(new File("blahdyblah/" + id + ".txt"));
-        newUser.writeUser(new File("goingyyoingy/" + id + ".txt"));
+        newUser.saveUser();
         //todo: change the filepaths to actual filepaths
         //todo: change user write function to not take a filepath; other places will need to save the user.
         return newUser;

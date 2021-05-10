@@ -1,10 +1,8 @@
 package sample;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 
-public class User {
+public class User implements Serializable {
     private final int userID;
     private Group[] groups;
     private Exercises exercises;
@@ -47,7 +45,7 @@ public class User {
         return account;
     }
 
-    public void writeUser(File file){
+    private void writeUser(File file){
         try{
             FileOutputStream foutstr = new FileOutputStream(file);
             ObjectOutputStream out = new ObjectOutputStream(foutstr);
@@ -58,6 +56,11 @@ public class User {
         catch(Exception e){
             throw new RuntimeException(e);
         }
+    }
+
+    public void saveUser(){
+        File file = new File("users/" + userID + ".ser");
+        writeUser(file);
     }
 }
 

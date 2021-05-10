@@ -125,7 +125,7 @@ public class CreateGoalController extends Goals implements Initializable, Serial
 
         goals.addGoal(goal);
 
-        //saveGoals(goals);
+        User.curUser.saveUser();
 
         for (Goal g : goals.getGoals()) {
             System.out.println(g);
