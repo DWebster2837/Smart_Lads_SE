@@ -13,12 +13,16 @@ public class Account implements Serializable{
     private final int userID;
     private final String password;
     private final String username;
-    private final String email;
+    private String email;
 
     public Account(int userID, String password, String username, String email) {
         this.userID = userID;
         this.password = hashString(password);
         this.username = username;
+        this.email = email;
+    }
+
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -119,7 +123,16 @@ public class Account implements Serializable{
         else{ return false;}
     }
 
-    public static User registerUser(int id, String username, String email, String password){
+    public static User registerUser(String username, String email, String password){
+        //guarantee unique id
+        int id = 0;
+        boolean taken = true;
+        while(taken){
+            id++;
+            int finalId = id;
+            taken = Arrays.stream(accounts).anyMatch(x->x.userID == finalId);
+        }
+
         Account newAcc = new Account(id, password, username, email);
         User newUser = new User(id, newAcc);
         newAcc.writeAccount(new File("accounts/" + id + ".txt"));

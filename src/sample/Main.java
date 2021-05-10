@@ -12,6 +12,11 @@ import java.net.URL;
 import java.util.Objects;
 
 public class Main extends Application {
+    private static Stage _primaryStage;
+
+    public static Stage getPrimaryStage() {
+        return _primaryStage;
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -22,6 +27,16 @@ public class Main extends Application {
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setScene(new Scene(root, 670, 452));
         primaryStage.show();
+        _primaryStage = primaryStage;
+    }
+
+    //resource, width, height, i think
+    public static void changeStage(URL stageResource, Double v, Double v1) throws Exception{
+        FXMLLoader loader = new FXMLLoader(stageResource);
+        Parent root = loader.load();
+        //_primaryStage.initStyle(StageStyle.UNDECORATED);
+        _primaryStage.setScene(new Scene(root, v, v1));
+        //_primaryStage.show();
     }
 
 

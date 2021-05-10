@@ -9,6 +9,8 @@ public class User implements Serializable {
     private Diet diet;
     private Goals goals;
     private Account account;
+    private double height_cm, weight_kg;
+    private String firstname, lastname;
     public static User curUser;
 
     public User(int userID, Account account) {
@@ -18,6 +20,38 @@ public class User implements Serializable {
         this.diet = new Diet();
         this.goals = new Goals();
         this.account = account;
+    }
+
+    public double getHeight_cm() {
+        return height_cm;
+    }
+
+    public void setHeight_cm(double height_cm) {
+        this.height_cm = height_cm;
+    }
+
+    public double getWeight_kg() {
+        return weight_kg;
+    }
+
+    public void setWeight_kg(double weight_kg) {
+        this.weight_kg = weight_kg;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public int getUserID() {

@@ -64,6 +64,15 @@ public class LoginController implements Initializable {
         stage.close();
     }
 
+    public void registerButtonOnAction(ActionEvent event){
+        try {
+            Main.changeStage(Main.class.getResource("fxml/Registration.fxml"), 670d, 452d);
+        }
+        catch(Exception e){
+            throw new RuntimeException();
+        }
+    }
+
     public void validateLogin() {
         if(Account.attemptLogin(usernameTextField.getText(), userPasswordField.getText())){
             try {
