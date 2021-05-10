@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane fx:id="inchesChoiceBox" prefHeight="422.0" prefWidth="600.0" style="-fx-background-color: #F5F5F5;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Registration">
+   <children>
+      <AnchorPane prefHeight="80.0" prefWidth="600.0">
+         <children>
+            <ImageView fx:id="registerImageView" fitHeight="70.0" fitWidth="73.0" layoutX="14.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Images/Register.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="214.0" layoutY="22.0" prefHeight="42.0" prefWidth="260.0" text="User Regisatration">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Label layoutX="74.0" layoutY="129.0" text="Username ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="73.0" layoutY="174.0" text="First Name">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="74.0" layoutY="219.0" text="Last Name">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="90.0" layoutY="269.0" text="Email">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="80.0" layoutY="314.0" text="Password">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <TextField fx:id="usernameTextField" layoutX="171.0" layoutY="126.0" promptText="e.g Mooni" />
+      <TextField fx:id="firstnameTeaxtField" layoutX="171.0" layoutY="171.0" promptText="Your First Name" />
+      <TextField fx:id="lastnameTextField" layoutX="171.0" layoutY="216.0" promptText="Your Last Name" />
+      <TextField layoutX="171.0" layoutY="266.0" promptText="Valid email" />
+      <PasswordField fx:id="setPasswordField" layoutX="172.0" layoutY="311.0" promptText="Password" />
+      <Label layoutX="375.0" layoutY="129.0" text="Height ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="feetChoiceBox" layoutX="439.0" layoutY="126.0" prefHeight="26.0" prefWidth="54.0">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </ChoiceBox>
+      <ChoiceBox fx:id="inchesChoiceBox" layoutX="505.0" layoutY="126.0" prefHeight="26.0" prefWidth="54.0" />
+      <Label layoutX="452.0" layoutY="99.0" text="Ft" />
+      <Label layoutX="527.0" layoutY="99.0" text="In" />
+      <Label layoutX="375.0" layoutY="174.0" text="Weight">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="weightTextField" layoutX="433.0" layoutY="170.0" prefHeight="26.0" prefWidth="66.0" promptText="Kilograms" />
+      <RadioButton fx:id="ppTextField" layoutX="421.0" layoutY="302.0" mnemonicParsing="false" text="Agree to privacy policy" />
+      <Button fx:id="registerButton" layoutX="439.0" layoutY="337.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="119.0" text="Register" />
+      <Button fx:id="cancelButton" layoutX="439.0" layoutY="373.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="119.0" text="Cancel" />
+      <Label layoutX="55.0" layoutY="363.0" text="Confirm Password">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <PasswordField fx:id="confirmPasswordField" layoutX="171.0" layoutY="360.0" promptText="Confirm Password" />
+   </children>
+</AnchorPane>
