@@ -7,10 +7,11 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.DashboardController">
    <AnchorPane layoutX="257.0" layoutY="-1.0" prefHeight="400.0" prefWidth="345.0">
-      <children>
-         <Button fx:id="exitButton" layoutX="229.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitButtonClicked" prefHeight="25.0" prefWidth="102.0" text="Exit" />
-         <Button fx:id="logoutButton" layoutX="119.0" layoutY="14.0" mnemonicParsing="false" onAction="#logoutButtonClicked" prefHeight="25.0" prefWidth="102.0" text="Logout" />
-      </children></AnchorPane>
+      <Button fx:id="exitButton" layoutX="229.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitButtonClicked"
+              prefHeight="25.0" prefWidth="102.0" text="Exit"/>
+      <Button fx:id="logoutButton" layoutX="119.0" layoutY="14.0" mnemonicParsing="false"
+              onAction="#logoutButtonClicked" prefHeight="25.0" prefWidth="102.0" text="Logout"/>
+   </AnchorPane>
    <Label layoutX="8.0" layoutY="7.0" prefHeight="30.0" prefWidth="178.0" text="USER DASHBOARD" textFill="#0d52f2">
       <font>
          <Font name="Bernard MT Condensed" size="24.0" />
@@ -27,9 +28,9 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label text="Height" />
-            <Label text="Weight" />
-            <Label text="BMI" />
+            <Label fx:id="heightLabel" text="Height" />
+            <Label fx:id="weightLabel" text="Weight" />
+            <Label fx:id="bmiLabel" text="BMI" />
          </VBox>
       </HBox>
       <VBox prefHeight="256.0" prefWidth="210.0">

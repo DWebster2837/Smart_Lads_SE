@@ -14,9 +14,11 @@ public class Diet implements Serializable {
         return foodListDay;
     }
 
-    public void setFoodListDay(ArrayList<Food> foodListDay) {
-        this.foodListDay = foodListDay;
+    public void setFoodListDay(ArrayList<Food> _foodListDay) {
+        this.foodListDay = new ArrayList<>(){};
+        this.foodListDay.addAll(_foodListDay);
     }
+
 
     private ArrayList<Food> foodListDay;
     private int targetCalories;
@@ -52,6 +54,23 @@ public class Diet implements Serializable {
         this.foodList = new ArrayList<Food>();
         this.mealList = new ArrayList<String>();
         this.calender = new ArrayList<LocalDate>();
+        this.date = LocalDate.now();
+        this.mapFoodDate = new HashMap<LocalDate, ArrayList<Food>>(){};
+        this.totalCalories = 0;
+    }
+
+    public Diet(ArrayList<Food> foodList, ArrayList<String> mealList, ArrayList<Food> foodListDay, int targetCalories, int totalCalories, boolean changesMade, LocalDate date, Food food, ArrayList<LocalDate> calender, ArrayList<Integer> savedCalories, HashMap<LocalDate, ArrayList<Food>> mapFoodDate) {
+        this.foodList = foodList;
+        this.mealList = mealList;
+        this.foodListDay = foodListDay;
+        this.targetCalories = targetCalories;
+        this.totalCalories = totalCalories;
+        this.changesMade = changesMade;
+        this.date = date;
+        this.food = food;
+        this.calender = calender;
+        this.savedCalories = savedCalories;
+        this.mapFoodDate = mapFoodDate;
     }
 
     public ArrayList<Food> getFoodList(){

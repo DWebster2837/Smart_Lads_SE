@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
-public class DietController extends Diet implements Initializable, Serializable {
+public class DietController extends Diet implements Initializable{
     public Button cancelButton;
     public Button addMeal;
     public Button addFoodDiary;
@@ -77,11 +77,6 @@ public class DietController extends Diet implements Initializable, Serializable 
         }
     }*/
 
-    public void closeHandle(){
-        if (diet.isChangesMade()){
-            User.curUser.saveUser();
-        }
-    }
 
     public void handleAddMeal(ActionEvent event){
         String mealName = mealInput.getText();
@@ -93,7 +88,7 @@ public class DietController extends Diet implements Initializable, Serializable 
         diet.getMealList().add(mealName);
         diet.getMapFoodDate().put(LocalDate.now(), diet.getFoodListDay());
         mealSelect.getItems().add(mealName);
-        diet.setChangesMade(true);
+        User.curUser.saveUser();
     }
 
     public void handleAddFood(ActionEvent event){
@@ -109,7 +104,7 @@ public class DietController extends Diet implements Initializable, Serializable 
         diet.getFoodList().add(food);
         diet.getMapFoodDate().put(LocalDate.now(), diet.getFoodListDay());
         foodSelect.getItems().add(food);
-        diet.setChangesMade(true);
+        User.curUser.saveUser();
     }
 
     public void handleAddFoodToDiet(ActionEvent event){
@@ -118,7 +113,7 @@ public class DietController extends Diet implements Initializable, Serializable 
         diet.getMapFoodDate().put(LocalDate.now(), diet.getFoodListDay());
         breakfastTable.setItems(FXCollections.observableList(diet.getFoodListDay()));
         breakfastTable.getColumns().setAll(breakfastFood, breakfastCalorie);
-        diet.setChangesMade(true);
+        User.curUser.saveUser();
     }
 
     @Override
@@ -147,12 +142,19 @@ public class DietController extends Diet implements Initializable, Serializable 
         breakfastCalorie.setCellValueFactory(new PropertyValueFactory<>("calories"));
 
         if (diet != null) {
+            //filter out nulls
+            if(diet.getDate() == null){ diet.setDate(LocalDate.now());}
+            if(diet.getMapFoodDate() == null){diet.setMapFoodDate(new HashMap<>(){});}
+            if(diet.getFoodListDay() == null){diet.setFoodListDay(new ArrayList<>(){});}
             LocalDate currentDate = LocalDate.now();
             mealSelect.getItems().addAll(diet.getMealList());
             foodSelect.getItems().addAll(diet.getFoodList());
             if (diet.getDate().compareTo(currentDate) == 0) {  // if it is current day
                 if (diet.getFoodListDay() != null) {
-                    breakfastTable.setItems(FXCollections.observableList(diet.getMapFoodDate().get(currentDate)));
+                    ArrayList<Food> var = diet.getMapFoodDate().get(currentDate);
+                    if(var != null) {
+                        breakfastTable.setItems(FXCollections.observableList(var));
+                    }
                     breakfastTable.getColumns().setAll(breakfastFood, breakfastCalorie);
                 }
             } else { //if diet retrieved is not today, create new day

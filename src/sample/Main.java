@@ -35,7 +35,12 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(stageResource);
         Parent root = loader.load();
         //_primaryStage.initStyle(StageStyle.UNDECORATED);
-        _primaryStage.setScene(new Scene(root, v, v1));
+        try {
+            _primaryStage.setScene(new Scene(root, v, v1));
+        }
+        catch(Exception e){
+            throw new RuntimeException(e);
+        }
         //_primaryStage.show();
     }
 
