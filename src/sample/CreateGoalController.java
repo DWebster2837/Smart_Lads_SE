@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.time.LocalDate;
@@ -113,7 +112,7 @@ public class CreateGoalController extends Goals implements Initializable, Serial
 
     }
 
-    public void createGoal(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
+    public void createGoal(ActionEvent actionEvent){
 
         if(!parsableToInt(targetTF.getText())){
             errorLB.setText("Target value is not a number");
