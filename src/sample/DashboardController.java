@@ -22,7 +22,7 @@ public class DashboardController implements Initializable {
 
     public void userGroupButtonClick(ActionEvent actionEvent) {
         try {
-            Main.changeStage(Main.class.getResource("fxml/Group.fxml"), 670d, 452d);
+            Main.changeStage(Main.class.getResource("fxml/Group.fxml"), 842d, 300d);
         }
         catch(Exception e){
             throw new RuntimeException(e);
@@ -31,7 +31,7 @@ public class DashboardController implements Initializable {
 
     public void dietButtonClick(ActionEvent actionEvent) {
         try {
-            Main.changeStage(Main.class.getResource("fxml/Diet.fxml"), 670d, 452d);
+            Main.changeStage(Main.class.getResource("fxml/Diet.fxml"), 624d, 764d);
         }
         catch(Exception e){
             throw new RuntimeException(e);
@@ -40,7 +40,7 @@ public class DashboardController implements Initializable {
 
     public void exerciseButtonClick(ActionEvent actionEvent) {
         try {
-            Main.changeStage(Main.class.getResource("fxml/viewExercise.fxml"), 670d, 452d);
+            Main.changeStage(Main.class.getResource("fxml/viewExercise.fxml"), 335d, 448d);
         }
         catch(Exception e){
             throw new RuntimeException(e);

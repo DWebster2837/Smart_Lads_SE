@@ -2,11 +2,15 @@ package sample;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
+import java.nio.file.*;
 import java.util.*;
+import java.util.stream.Stream;
+
 public class Group {
     private String Name;
     private LinkedList<Member> Members;
     private int groupID;
+    private static Group[] groups = loadGroups();
 
     public Group(String name, int groupID) {
         Name = name;
@@ -51,18 +55,27 @@ public class Group {
             throw new RuntimeException(e);
         }
     }
-/*    private static Account loadAccount(File file){
-        try{
-            FileInputStream finstr = new FileInputStream(file);
-            ObjectInputStream in = new ObjectInputStream(finstr);
-            Account out = (Account)in.readObject();
-            in.close();
-            return out;
+
+    private static Group[] loadGroups(){
+        File[] files;
+        try {
+            Path folderPath = Paths.get("groups");
+            Stream<Path> stream = Files.list(folderPath).filter(Files::isRegularFile);
+            PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:**.ser");
+            //stream.filter((f) -> f.toString().toLowerCase().endsWith(".ser"));
+            //technically either of these work; im assuming the thingy for the purpose is better.
+            Stream<File> matches = stream.filter(matcher::matches).map(Path::toFile);
+            files = matches.toArray(File[]::new);
+            stream.close();
         }
-        catch(Exception e){
-            throw new RuntimeException(e);
+        catch(Exception e){ throw new RuntimeException(e);}
+        Group[] arr = new Group[files.length];
+        for(int i = 0; i < files.length; i++){
+            File f = files[i];
+            arr[i] = loadGroup(f);
         }
-    }*/
+        return arr;
+    }
 }
 
 class Member{

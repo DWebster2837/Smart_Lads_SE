@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane alignment="center" hgap="20" vgap="20" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GroupController">
+<GridPane alignment="center" hgap="20" prefHeight="294.0" prefWidth="842.0" vgap="20" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GroupController">
     <padding><Insets bottom="10" left="25" right="25" top="10" /></padding>
 
     <!--Drop down menu for group selection-->
