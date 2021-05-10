@@ -27,18 +27,18 @@
                     <children>
                         <ImageView fx:id="loginImageView" fitHeight="362.0" fitWidth="322.0" layoutX="2.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="0.1967834472656591" AnchorPane.rightAnchor="0.6032165527343523" AnchorPane.topAnchor="34.60000000000002">
                             <image>
-                                <Image url="@../../Images/Login.png" />
+                                <Image url="@../../../Images/Login.png" />
                             </image>
                         </ImageView>
                     </children>
                 </AnchorPane>
             </left>
             <right>
-                <AnchorPane fx:id="lockImageView" prefHeight="439.0" prefWidth="362.0" style="-fx-background-color: #F5F5F5;" BorderPane.alignment="CENTER">
+                <AnchorPane fx:id="lockImageView1" prefHeight="439.0" prefWidth="362.0" style="-fx-background-color: #F5F5F5;" BorderPane.alignment="CENTER">
                     <children>
                         <ImageView fx:id="lockImageView" fitHeight="41.0" fitWidth="44.0" layoutX="170.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../Images/Lock.png" />
+                                <Image url="@../../../Images/Lock.png" />
                             </image>
                         </ImageView>
                         <Label layoutX="46.0" layoutY="184.0" text="Username">

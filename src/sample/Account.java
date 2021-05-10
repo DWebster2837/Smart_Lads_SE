@@ -3,6 +3,7 @@ package sample;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.security.MessageDigest;
+import java.util.Arrays;
 import java.util.Base64;
 import java.io.*;
 import java.util.stream.*;
@@ -107,13 +108,23 @@ public class Account implements Serializable{
         return accarr;
     }
 
+    public static boolean attemptLogin(String username, String password){
+        //return null on fail
+        Account attempt = Arrays.stream(accounts).filter(x->x.username == username).findFirst().orElse(null);
+        if(attempt == null){ return false;}
+        if(attempt.checkPassword(password)){
+            User.curUser = User.loadUser(attempt.userID);
+            return true;
+        }
+        else{ return false;}
+    }
+
     public static User registerUser(int id, String username, String email, String password){
         Account newAcc = new Account(id, password, username, email);
         User newUser = new User(id, newAcc);
-        newAcc.writeAccount(new File("blahdyblah/" + id + ".txt"));
+        newAcc.writeAccount(new File("accounts/" + id + ".txt"));
         newUser.saveUser();
-        //todo: change the filepaths to actual filepaths
-        //todo: change user write function to not take a filepath; other places will need to save the user.
+        User.curUser = newUser;
         return newUser;
     }
 }

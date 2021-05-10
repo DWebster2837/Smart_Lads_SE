@@ -1,22 +1,30 @@
 package sample;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import javafx.event.ActionEvent;
 
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.util.MissingResourceException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
+    public Button loginButton;
+    public AnchorPane lockImageView1;
     @FXML
     private Button cancelButton;
     @FXML
@@ -45,7 +53,7 @@ public class LoginController implements Initializable {
     public void loginButtonOnAction(ActionEvent event) {
 
         if (!usernameTextField.getText().isBlank() && !userPasswordField.getText().isBlank()){
-            loginMessageLabel.setText("You tried to Login");
+            validateLogin();
         }  else {
             loginMessageLabel.setText("Please enter username and password");
         }
@@ -56,9 +64,16 @@ public class LoginController implements Initializable {
         stage.close();
     }
 
-    public void validateLogin(){
+    public void validateLogin() {
+        if(Account.attemptLogin(usernameTextField.getText(), userPasswordField.getText())){
+            try {
+                //Parent dashboard = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("fxml/Dashboard.fxml")));
+                //TODO:plug dashboard here
 
+            }
+            catch(Exception e){
+                throw new RuntimeException();
+            }
+        }
     }
-
-
 }

@@ -57,10 +57,26 @@ public class User implements Serializable {
             throw new RuntimeException(e);
         }
     }
-
     public void saveUser(){
         File file = new File("users/" + userID + ".ser");
         writeUser(file);
+    }
+
+    private static User loadUser(File file){
+        try{
+            FileInputStream finstr = new FileInputStream(file);
+            ObjectInputStream in = new ObjectInputStream(finstr);
+            User out = (User)in.readObject();
+            in.close();
+            return out;
+        }
+        catch(Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+    public static User loadUser(int userID){
+        File file = new File("users/" + userID + ".ser");
+        return loadUser(file);
     }
 }
 

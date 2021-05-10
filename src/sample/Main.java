@@ -1,35 +1,31 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+import java.io.File;
+import java.net.URL;
+import java.util.Objects;
 
 public class Main extends Application {
 
-    private DietController controller;
-
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Diet.fxml"));
+        //String var = getClass().getResource("Login.fxml").getPath();
+        URL var = Main.class.getResource("fxml/Login.fxml");
+        FXMLLoader loader = new FXMLLoader(var);
         Parent root = loader.load();
-        primaryStage.setTitle("Food Diary");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.initStyle(StageStyle.UNDECORATED);
+        primaryStage.setScene(new Scene(root, 670, 452));
         primaryStage.show();
-
-        controller = loader.getController();
-        primaryStage.setOnCloseRequest(e-> {
-            controller.closeHandle();
-            Platform.exit();
-        });
     }
 
 
     public static void main(String[] args) {
         launch(args);
     }
-
-
 }
