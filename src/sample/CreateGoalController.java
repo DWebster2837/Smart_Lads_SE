@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
 
 public class CreateGoalController extends Goals implements Initializable, Serializable {
 
-    Goals goals = new Goals();
+    Goals goals = User.curUser.getGoals();
 
     LocalDate start, end;
     String goalType;
@@ -126,9 +126,9 @@ public class CreateGoalController extends Goals implements Initializable, Serial
 
         goals.addGoal(goal);
 
-        saveGoals(goals);
+        //saveGoals(goals);
 
-        for (Goal g : loadGoals()) {
+        for (Goal g : goals.getGoals()) {
             System.out.println(g);
         }
 
@@ -147,14 +147,14 @@ public class CreateGoalController extends Goals implements Initializable, Serial
         errorLB.setVisible(false);
 
         try {
-            for (Goal g : loadGoals()) {
+            for (Goal g : goals.getGoals()) {
                 if(g.end.isBefore(LocalDate.now()) && g.currentValue < g.targetValue && g.state.equals("On Track")){
                     g.state = "Failed";
                 }
                 goals.addGoal(g);
                 System.out.println(g);
             }
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (Exception e) {
             System.out.println("No goals");
         }
 
