@@ -7,13 +7,13 @@ import java.util.*;
 import java.util.stream.*;
 
 public class Exercises implements Serializable {
-
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private HashSet<Exercise> multipleExercises = new HashSet<>();
     private String[] exerciseType;
 
-    static String fileName = "exercise.ser";
+    //static String fileName = "exercise.ser";
 
     public static int getCaloriesInRange(LocalDate first, LocalDate last){
 
@@ -29,14 +29,14 @@ public class Exercises implements Serializable {
         return null;
     }
 
-    public static HashSet<Exercise> loadExercises() throws IOException, ClassNotFoundException {
+    /*public static HashSet<Exercise> loadExercises() throws IOException, ClassNotFoundException {
 
         FileInputStream fis = new FileInputStream(fileName);
         ObjectInputStream is = new ObjectInputStream(fis);
         Exercises ex= (Exercises) is.readObject();
         return ex.multipleExercises;
 
-    }
+    }*/
 
     public void addExercise(Exercise exercise){
 
@@ -44,17 +44,21 @@ public class Exercises implements Serializable {
 
     }
 
+    public HashSet<Exercise> getExercises() {
+        return multipleExercises;
+    }
+
     public void copyExercises(HashSet<Exercise> ex){
         multipleExercises = ex;
     }
 
-    public static void saveExercises(Exercises ex) throws IOException {
+    /*public static void saveExercises(Exercises ex) throws IOException {
         FileOutputStream fos = new FileOutputStream(fileName);
         ObjectOutputStream os = new ObjectOutputStream(fos);
         os.writeObject(ex);
         os.close();
         System.out.println("Exercises saved");
-    }
+    }*/
 
     public void remove(Exercise exercise) throws IOException, ClassNotFoundException {
 

@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.net.URL;
 import java.time.Duration;
@@ -19,6 +20,7 @@ import java.util.ResourceBundle;
 
 public class AddExerciseController extends Exercises implements Initializable, Serializable{
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     Exercises exercises = User.curUser.getExercises();
@@ -82,24 +84,16 @@ public class AddExerciseController extends Exercises implements Initializable, S
         success.setVisible(false);
 
         //load exercises from database
-        try {
-            for(Exercise ex: loadExercises()){
-                exercises.addExercise(ex);
-                System.out.println(ex);
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("No exercises");
+        for(Exercise ex: exercises.getExercises()) {
+            exercises.addExercise(ex);
+            System.out.println(ex);
         }
 
-        try {
-            for (Goal g : User.curUser.getGoals().getGoals()) {
-                if(g.end.isBefore(LocalDate.now()) && g.currentValue < g.targetValue && g.state.equals("On Track")){
-                    g.state = "Failed";
-                }
-                System.out.println(g);
+        for (Goal g : User.curUser.getGoals().getGoals()) {
+            if (g.end.isBefore(LocalDate.now()) && g.currentValue < g.targetValue && g.state.equals("On Track")) {
+                g.state = "Failed";
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(g);
         }
 
 
@@ -226,9 +220,9 @@ public class AddExerciseController extends Exercises implements Initializable, S
             exercise = new Exercise(type, date, duration, calories, strokes, distance, steps);
 
             exercises.addExercise(exercise);
-            saveExercises(exercises);
+            //saveExercises(exercises);
 
-            for(Exercise ex: loadExercises()){
+            for(Exercise ex: exercises.getExercises()){
                 System.out.println(ex);
             }
 
@@ -245,7 +239,7 @@ public class AddExerciseController extends Exercises implements Initializable, S
         }
     }
 
-    public void loopGoals() throws IOException, ClassNotFoundException {
+    public void loopGoals(){
         String verb = "";
         String unit = "";
         gs = User.curUser.getGoals();
@@ -305,18 +299,14 @@ public class AddExerciseController extends Exercises implements Initializable, S
         //saveGoals(gs);
     }
 
-    public void onAccept(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
+    public void onAccept(ActionEvent actionEvent){
         goalFinish.setVisible(false);
         loopGoals();
-        /*
-        gs.addGoal(new Goal((int) (g.currentValue * 1.1), challengeDate.getValue(), challengeDate.getValue().plus(diff)
-                , g.goalType, "On Track", 0));
-         */
 
         //saveGoals(gs);
     }
 
-    public void onDecline(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
+    public void onDecline(ActionEvent actionEvent){
         goalFinish.setVisible(false);
         loopGoals();
     }
