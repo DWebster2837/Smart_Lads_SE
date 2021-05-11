@@ -59,7 +59,6 @@
       </font>
    </Label>
    <TextField fx:id="weightTextField" layoutX="433.0" layoutY="170.0" prefHeight="26.0" prefWidth="66.0" promptText="Kilograms" />
-   <RadioButton fx:id="ppTextField" layoutX="421.0" layoutY="302.0" mnemonicParsing="false" text="Agree to privacy policy" />
    <Button fx:id="registerButton" layoutX="439.0" layoutY="337.0" mnemonicParsing="false" onAction="#buttonRegisterClick" prefHeight="26.0" prefWidth="119.0" text="Register" />
    <Button fx:id="cancelButton" layoutX="439.0" layoutY="373.0" mnemonicParsing="false" onAction="#buttonCancelClick" prefHeight="26.0" prefWidth="119.0" text="Cancel" />
    <Label layoutX="55.0" layoutY="363.0" text="Confirm Password">
