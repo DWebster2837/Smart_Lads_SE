@@ -53,7 +53,7 @@ public class Diet implements Serializable {
     }
 
     private int totalCalories;
-    private transient boolean changesMade;
+    //private transient boolean changesMade;
     private LocalDate date;
     private Food food;
 
@@ -115,7 +115,7 @@ public class Diet implements Serializable {
         this.foodList = new ArrayList<Food>();
         this.mealList = new ArrayList<String>();
         this.calender = new ArrayList<LocalDate>();
-        this.date = LocalDate.now();
+        //this.date = LocalDate.now();
         this.mapFoodDate = new HashMap<LocalDate, ArrayList<Food>>(){};
         this.totalCalories = 0;
     }
@@ -126,7 +126,7 @@ public class Diet implements Serializable {
         this.foodListDay = foodListDay;
         this.targetCalories = targetCalories;
         this.totalCalories = totalCalories;
-        this.changesMade = changesMade;
+        //this.changesMade = changesMade;
         this.date = date;
         this.food = food;
         this.calender = calender;
@@ -182,13 +182,13 @@ public class Diet implements Serializable {
         this.targetCalories = targetCalories;
     }
 
-    public boolean isChangesMade() {
+    /*public boolean isChangesMade() {
         return changesMade;
     }
 
-    public void setChangesMade(boolean changesMade){
+    //public void setChangesMade(boolean changesMade){
         this.changesMade = changesMade;
-    }
+    }*/
 
     public LocalDate getDate(){
         return date;

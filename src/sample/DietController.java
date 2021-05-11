@@ -61,7 +61,7 @@ public class DietController extends Diet implements Initializable, Serializable 
     private String mealSelected;
 
 
-    private Diet readDiet(){
+    /*private Diet readDiet(){
         FileInputStream fileInputStream = null;
         try {
             fileInputStream = new FileInputStream("Test.ser"); //replace with (Integer.toString(user.getUserID())+".ser")
@@ -91,11 +91,11 @@ public class DietController extends Diet implements Initializable, Serializable 
         }
     }
 
-    public void closeHandle(){
-        if (diet.isChangesMade()){
-            saveDiet();
-        }
-    }
+    //public void closeHandle(){
+    //    if (diet.isChangesMade()){
+    //        saveDiet();
+    //    }
+    //}*/
 
     public void handleAddMeal(ActionEvent event){
         String mealName = mealInput.getText();
@@ -110,7 +110,7 @@ public class DietController extends Diet implements Initializable, Serializable 
         diet.getMealList().add(mealName);
         mealSelect.getItems().add(mealName);
         mealSelect1.getItems().add(mealName);
-        diet.setChangesMade(true);
+        User.curUser.saveUser();
     }
 
     public void handleAddFood(ActionEvent event){
@@ -127,7 +127,7 @@ public class DietController extends Diet implements Initializable, Serializable 
         diet.getFoodList().add(food);
         foodSelect.getItems().add(food);
         foodSelect1.getItems().add(food);
-        diet.setChangesMade(true);
+        User.curUser.saveUser();
     }
 
     public void handleAddFoodToDiet(ActionEvent event){
@@ -140,7 +140,7 @@ public class DietController extends Diet implements Initializable, Serializable 
         sortListToTable();
         diet.addTotalCalories(foodSelect.getValue().getCalories());
         foodConsumed.textProperty().set(String.valueOf(diet.getTotalCalories()));
-        diet.setChangesMade(true);
+        User.curUser.saveUser();
         updateProgressBar();
     }
 
@@ -194,7 +194,7 @@ public class DietController extends Diet implements Initializable, Serializable 
                 updateProgressBar();
                 sortListToTable();
         }
-        diet.setChangesMade(true);
+        User.curUser.saveUser();
     }
 
     public void handleRemoveFood(ActionEvent event){
@@ -205,7 +205,7 @@ public class DietController extends Diet implements Initializable, Serializable 
         foodSelect1.getItems().remove(foodSelect1.getValue());
         foodSelect.getItems().remove(foodSelect1.getValue());
         foodSelect1.setValue(null);
-        diet.setChangesMade(true);
+        User.curUser.saveUser();
     }
 
     public void handleRemoveMeal(ActionEvent event){
@@ -217,7 +217,7 @@ public class DietController extends Diet implements Initializable, Serializable 
         mealSelect1.getItems().remove(mealSelect1.getValue());
         mealSelect.getItems().remove(mealSelect1.getValue());
         mealSelect1.setValue(null);
-        diet.setChangesMade(true);
+        User.curUser.saveUser();
     }
 
     public void removeMeal(String meal){
@@ -234,7 +234,7 @@ public class DietController extends Diet implements Initializable, Serializable 
         diet.getMapTargetDate().put(LocalDate.now(), diet.getTargetCalories());
         updateProgressBar();
         diet.setLastSavedValue(targetCalorie);
-        diet.setChangesMade(true);
+        User.curUser.saveUser();
     }
     public boolean isNumber(String s){
         try {
@@ -269,7 +269,7 @@ public class DietController extends Diet implements Initializable, Serializable 
                 else{
                     ArrayList<Food> emptyFood = new ArrayList<>();
                     diet.setTotalCalories(0);
-                    diet.setFoodListDay(null);
+                    diet.setFoodListDay(new ArrayList<Food>(){});
                     diet.setTargetCalories(diet.getLastSavedValue());
                     breakfastTable.setItems(FXCollections.observableList(emptyFood));
                     breakfastTable.getColumns().setAll(foodNameBreakfast, foodCaloriesBreakfast);
@@ -308,34 +308,71 @@ public class DietController extends Diet implements Initializable, Serializable 
             mealSelected = "";
         });
 
+
         if (diet != null) {
-            LocalDate currentDate = LocalDate.now();
-            mealSelect.getItems().addAll(diet.getMealList());
-            foodSelect.getItems().addAll(diet.getFoodList());
-            mealSelect1.getItems().addAll(diet.getMealList());
-            foodSelect1.getItems().addAll(diet.getFoodList());
-            if (diet.getDate().compareTo(currentDate) == 0) {  // if it is current day
-                if (diet.getFoodListDay() != null) {
-                    int displayTotalCalories = 0;
-                    for (Food f: diet.getFoodListDay()){
-                        displayTotalCalories += f.getCalories();
+            if(diet.getDate() == null){
+                diet = new Diet();
+                diet.setFoodList(new ArrayList<>());
+                diet.setCalender(new ArrayList<>());
+                diet.setMealList(new ArrayList<>());
+                diet.setMapFoodDate(new HashMap<>());
+                diet.setMapTargetDate(new HashMap<>());
+                diet.setFoodListDay(new ArrayList<>());
+                diet.getMapFoodDate().put(LocalDate.now(), new ArrayList<>(diet.getFoodListDay()));
+                diet.getMapTargetDate().put(LocalDate.now(), diet.getTargetCalories());
+                diet.setDate(LocalDate.now());
+                diet.setTotalCalories(0);
+                diet.setSavedCalories(new ArrayList<>());
+                diet.getMealList().add("Breakfast");
+                diet.getMealList().add("Lunch");
+                diet.getMealList().add("Dinner");
+                mealSelect.getItems().addAll(diet.getMealList());
+                foodSelect.getItems().addAll(diet.getFoodList());
+                mealSelect1.getItems().addAll(diet.getMealList());
+                foodSelect1.getItems().addAll(diet.getFoodList());
+
+                ArrayList<Food> sortedListBreakfast = new ArrayList<>();
+                ArrayList<Food> sortedListLunch = new ArrayList<>();
+                ArrayList<Food> sortedListDinner = new ArrayList<>();
+                ArrayList<Food> sortedOther = new ArrayList<>();
+                breakfastTable.setItems(FXCollections.observableList(sortedListBreakfast));
+                breakfastTable.getColumns().setAll(foodNameBreakfast, foodCaloriesBreakfast);
+                lunchTable.setItems(FXCollections.observableList(sortedListLunch));
+                lunchTable.getColumns().setAll(foodNameLunch, foodCaloriesLunch);
+                dinnerTable.setItems(FXCollections.observableList(sortedListDinner));
+                dinnerTable.getColumns().setAll(foodNameDinner, foodCaloriesDinner);
+                other.setItems(FXCollections.observableList(sortedOther));
+                other.getColumns().setAll(foodNameOther, foodCaloriesOther);
+                updateProgressBar();
+            }
+            else {
+                LocalDate currentDate = LocalDate.now();
+                mealSelect.getItems().addAll(diet.getMealList());
+                foodSelect.getItems().addAll(diet.getFoodList());
+                mealSelect1.getItems().addAll(diet.getMealList());
+                foodSelect1.getItems().addAll(diet.getFoodList());
+                if (diet.getDate().compareTo(currentDate) == 0) {  // if it is current day
+                    if (diet.getFoodListDay() != null) {
+                        int displayTotalCalories = 0;
+                        for (Food f : diet.getFoodListDay()) {
+                            displayTotalCalories += f.getCalories();
+                        }
+                        sortListToTable();
+                        diet.setTotalCalories(displayTotalCalories);
+                        foodConsumed.setText(String.valueOf(diet.getTotalCalories()));
+                        sortListToTable();
+                        updateProgressBar();
+                    } else {
+                        diet.setFoodListDay(new ArrayList<>());
                     }
-                    sortListToTable();
-                    diet.setTotalCalories(displayTotalCalories);
-                    foodConsumed.setText(String.valueOf(diet.getTotalCalories()));
-                    sortListToTable();
+                } else { //if diet retrieved is not today, create new day
+                    diet.setFoodListDay(new ArrayList<>());
+                    diet.setTotalCalories(0);
+                    diet.setDate(currentDate);
+                    diet.getMapTargetDate().put(LocalDate.now(), diet.getTargetCalories());
+                    diet.getMapFoodDate().put(LocalDate.now(), diet.getFoodListDay());
                     updateProgressBar();
                 }
-                else{
-                    diet.setFoodListDay(new ArrayList<>());
-                }
-            } else { //if diet retrieved is not today, create new day
-                diet.setFoodListDay(new ArrayList<>());
-                diet.setTotalCalories(0);
-                diet.setDate(currentDate);
-                diet.getMapTargetDate().put(LocalDate.now(), diet.getTargetCalories());
-                diet.getMapFoodDate().put(LocalDate.now(), diet.getFoodListDay());
-                updateProgressBar();
             }
         }
         else { //if user doesn't have diet diary then create new
@@ -411,7 +448,7 @@ public class DietController extends Diet implements Initializable, Serializable 
             other.getColumns().setAll(foodNameOther, foodCaloriesOther);
             updateProgressBar();
         }
-        diet.setChangesMade(false);
+        //diet.setChangesMade(false);
         sortListToTable();
         updateProgressBar();
         progressBar.progressProperty().bind(diet.barUpdaterProperty());

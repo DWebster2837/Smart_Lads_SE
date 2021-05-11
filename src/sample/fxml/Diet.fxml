@@ -9,7 +9,7 @@
 
 <TabPane prefHeight="871.0" prefWidth="624.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.DietController">
    <tabs>
-      <Tab text="Add Food">
+      <Tab closable="false" text="Add Food">
          <content>
             <VBox fx:id="layout" prefHeight="95.0" prefWidth="624.0">
                <HBox prefHeight="115.0" prefWidth="482.0">
@@ -82,10 +82,11 @@
                      <Button fx:id="removeMeal" mnemonicParsing="false" onAction="#handleRemoveMeal" text="Remove" />
                   </children>
                </HBox>
+               <Button mnemonicParsing="false" onAction="#cancelButtonClicked" prefHeight="25.0" prefWidth="149.0" text="Cancel" />
             </VBox>
          </content>
       </Tab>
-      <Tab text="View Diary">
+      <Tab closable="false" text="View Diary">
          <content>
             <ScrollPane prefHeight="836.0" prefWidth="624.0">
                <content>
@@ -161,7 +162,7 @@
             </ScrollPane>
          </content>
       </Tab>
-      <Tab text="Data Report">
+      <Tab closable="false" text="Data Report">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
