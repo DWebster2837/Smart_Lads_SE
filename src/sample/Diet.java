@@ -32,6 +32,7 @@ public class Diet implements Serializable {
     private transient DoubleProperty barUpdater;
 
     public ArrayList<Food> getFoodListDay() {
+        if(foodListDay == null){foodListDay = new ArrayList<Food>(){};}
         return foodListDay;
     }
 
