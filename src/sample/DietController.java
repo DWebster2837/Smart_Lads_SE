@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
 
 import java.io.*;
 import java.net.URL;
@@ -16,12 +15,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
-public class DietController extends Diet implements Initializable{
-    public Button cancelButton;
-    public Button addMeal;
-    public Button addFoodDiary;
-    public VBox layout;
-    public Button addFood;
+import static sample.Goals.loadGoals;
+import static sample.Goals.saveGoals;
+
+public class DietController extends Diet implements Initializable, Serializable {
     private Diet diet;
     private User user;
     @FXML
@@ -47,7 +44,7 @@ public class DietController extends Diet implements Initializable{
     LocalDate currentDate;
 
 
-    /*private Diet readDiet(){
+    private Diet readDiet(){
         FileInputStream fileInputStream = null;
         try {
             fileInputStream = new FileInputStream("Test.ser"); //replace with (Integer.toString(user.getUserID())+".ser")
@@ -64,9 +61,9 @@ public class DietController extends Diet implements Initializable{
                 }
             }
         }
-    }*/
+    }
 
-    /*private void saveDiet() {
+    private void saveDiet() {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream("Test.ser"); //replace with (Integer.toString(user.getUserID())+".ser")
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
@@ -75,8 +72,13 @@ public class DietController extends Diet implements Initializable{
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
+    public void closeHandle(){
+        if (diet.isChangesMade()){
+            saveDiet();
+        }
+    }
 
     public void handleAddMeal(ActionEvent event){
         String mealName = mealInput.getText();
@@ -88,10 +90,10 @@ public class DietController extends Diet implements Initializable{
         diet.getMealList().add(mealName);
         diet.getMapFoodDate().put(LocalDate.now(), diet.getFoodListDay());
         mealSelect.getItems().add(mealName);
-        User.curUser.saveUser();
+        diet.setChangesMade(true);
     }
 
-    public void handleAddFood(ActionEvent event){
+    public void handleAddFood(ActionEvent event) throws IOException, ClassNotFoundException {
         String foodName = foodInput.getText();
         String calories = caloriesInput.getText();
 
@@ -104,16 +106,60 @@ public class DietController extends Diet implements Initializable{
         diet.getFoodList().add(food);
         diet.getMapFoodDate().put(LocalDate.now(), diet.getFoodListDay());
         foodSelect.getItems().add(food);
-        User.curUser.saveUser();
+        diet.setChangesMade(true);
+
+        //Goals stuff
+        Goals gs = new Goals();
+        for(Goal g: loadGoals()){
+            if(g.state.equals("On Track") && (g.start.equals(LocalDate.now()) || g.start.isBefore(LocalDate.now()))
+                    && (g.end.isAfter(LocalDate.now()) || g.end.equals(LocalDate.now()))){
+
+                g.currentValue += Integer.parseInt(calories);
+
+                if(g.currentValue >= g.targetValue){
+                    g.state = "Beaten";
+                }
+            }
+
+            gs.addGoal(g);
+        }
+        saveGoals(gs);
+
+        for(Goal goals : loadGoals()){
+            System.out.println(goals);
+        }
     }
 
-    public void handleAddFoodToDiet(ActionEvent event){
+    public void handleAddFoodToDiet(ActionEvent event) throws IOException, ClassNotFoundException {
         Food food = new Food(foodSelect.getValue().getFoodName(), foodSelect.getValue().getCalories());
         diet.getFoodListDay().add(food);
         diet.getMapFoodDate().put(LocalDate.now(), diet.getFoodListDay());
         breakfastTable.setItems(FXCollections.observableList(diet.getFoodListDay()));
         breakfastTable.getColumns().setAll(breakfastFood, breakfastCalorie);
-        User.curUser.saveUser();
+        diet.setChangesMade(true);
+        //Goals stuff
+        for(Goal goals : loadGoals()){
+            System.out.println(goals);
+        }
+        Goals gs = new Goals();
+        for(Goal g: loadGoals()){
+            if(g.state.equals("On Track") && g.goalType.equals("Calories Intake") && (g.start.equals(LocalDate.now()) || g.start.isBefore(LocalDate.now()))
+                    && (g.end.isAfter(LocalDate.now()) || g.end.equals(LocalDate.now()))){
+
+                g.currentValue += foodSelect.getValue().getCalories();
+
+                if(g.currentValue >= g.targetValue){
+                    g.state = "Beaten";
+                }
+            }
+
+            gs.addGoal(g);
+        }
+        saveGoals(gs);
+
+        for(Goal goals : loadGoals()){
+            System.out.println(goals);
+        }
     }
 
     @Override
@@ -137,24 +183,17 @@ public class DietController extends Diet implements Initializable{
             }
         });
 
-        diet = User.curUser.getDiet();
+        diet = readDiet();
         breakfastFood.setCellValueFactory(new PropertyValueFactory<>("foodName"));
         breakfastCalorie.setCellValueFactory(new PropertyValueFactory<>("calories"));
 
         if (diet != null) {
-            //filter out nulls
-            if(diet.getDate() == null){ diet.setDate(LocalDate.now());}
-            if(diet.getMapFoodDate() == null){diet.setMapFoodDate(new HashMap<>(){});}
-            if(diet.getFoodListDay() == null){diet.setFoodListDay(new ArrayList<>(){});}
             LocalDate currentDate = LocalDate.now();
             mealSelect.getItems().addAll(diet.getMealList());
             foodSelect.getItems().addAll(diet.getFoodList());
             if (diet.getDate().compareTo(currentDate) == 0) {  // if it is current day
                 if (diet.getFoodListDay() != null) {
-                    ArrayList<Food> var = diet.getMapFoodDate().get(currentDate);
-                    if(var != null) {
-                        breakfastTable.setItems(FXCollections.observableList(var));
-                    }
+                    breakfastTable.setItems(FXCollections.observableList(diet.getMapFoodDate().get(currentDate)));
                     breakfastTable.getColumns().setAll(breakfastFood, breakfastCalorie);
                 }
             } else { //if diet retrieved is not today, create new day
@@ -198,12 +237,8 @@ public class DietController extends Diet implements Initializable{
         diet.setChangesMade(false);
     }
 
-    public void cancelButtonClicked(ActionEvent actionEvent) {
-        try {
-            Main.changeStage(Main.class.getResource("fxml/Dashboard.fxml"), 670d, 452d);
-        }
-        catch(Exception e){
-            throw new RuntimeException(e);
-        }
-    }
+
+
+
+
 }

@@ -1,20 +1,27 @@
 package sample;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class CreateGoalController extends Goals implements Initializable, Serializable {
 
-    public Button cancelButton;
-    public ToggleGroup goalGroup;
-    Goals goals = User.curUser.getGoals();
+    Goals goals = new Goals();
 
     LocalDate start, end;
     String goalType;
@@ -35,9 +42,32 @@ public class CreateGoalController extends Goals implements Initializable, Serial
     public SplitPane targetChooser;
     public Label chosenDate;
     public TextField targetTF;
-    public Label recommendationLB;
     public Label targetLB;
     public Label errorLB;
+    public ListView<Goal> listGeneralLV;
+    public ListView<Goal> listExerciseLV;
+    public SplitPane historySP;
+    public ListView<Goal> listHistoryLV;
+    public SplitPane showGoalSP;
+    public Label goalNameLB;
+    public Label goalDateLB;
+    public ProgressBar goalPB;
+    public Label progressLB;
+    public LineChart<String, Integer> lineChart;
+    public CategoryAxis goalCA;
+
+
+
+    ObservableList<Goal> listGeneralGoals = FXCollections.observableArrayList(Goals.loadGeneralGoal());
+    ObservableList<Goal> listExerciseGoals = FXCollections.observableArrayList(Goals.loadExerciseGoal());
+    ObservableList<Goal> listHistoryGoals = FXCollections.observableArrayList(Goals.loadHistoryGoal());
+
+
+    String goalChosen;
+
+
+    public CreateGoalController() throws IOException, ClassNotFoundException {
+    }
 
     public boolean parsableToInt(String str){
         //string that is a number
@@ -63,42 +93,34 @@ public class CreateGoalController extends Goals implements Initializable, Serial
 
         if (weightRB.isSelected()) {
             goalType = "Weight";
-            recommendationLB.setText("Your recommended target weight is");
             targetLB.setText("Target weight:");
         }
         else if (bmiRB.isSelected()) {
             goalType = "BMI";
-            recommendationLB.setText("Your recommended target BMI is");
             targetLB.setText("Target BMI:");
         }
         else if (calIntakeRB.isSelected()) {
             goalType = "Calories Intake";
-            recommendationLB.setText("Your recommended target calories intake is");
             targetLB.setText("Target calories intake:");
         }
         else if (calBurntRB.isSelected()) {
             goalType = "Calories Burnt";
-            recommendationLB.setText("Your recommended target calories burnt is");
             targetLB.setText("Target calories burnt:");
         }
         else if (walkDistRB.isSelected()) {
             goalType = "Walk Distance";
-            recommendationLB.setText("Your recommended target walk distance is");
             targetLB.setText("Target walk distance:");
         }
         else if (runDistRB.isSelected()) {
             goalType = "Run Distance";
-            recommendationLB.setText("Your recommended target run distance is");
             targetLB.setText("Target run distance:");
         }
         else if (swimDistRB.isSelected()) {
             goalType = "Swim Distance";
-            recommendationLB.setText("Your recommended target swim distance is");
             targetLB.setText("Target swim distance:");
         }
         else if (stepsRB.isSelected()) {
             goalType = "Steps";
-            recommendationLB.setText("Your recommended target steps is");
             targetLB.setText("Target steps:");
         }
         else{
@@ -114,7 +136,7 @@ public class CreateGoalController extends Goals implements Initializable, Serial
 
     }
 
-    public void createGoal(ActionEvent actionEvent){
+    public void createGoal(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
 
         if(!parsableToInt(targetTF.getText())){
             errorLB.setText("Target value is not a number");
@@ -127,46 +149,167 @@ public class CreateGoalController extends Goals implements Initializable, Serial
 
         goals.addGoal(goal);
 
-        User.curUser.saveUser();
+        saveGoals(goals);
 
-        for (Goal g : goals.getGoals()) {
+        for (Goal g : loadGoals()) {
             System.out.println(g);
         }
 
         targetChooser.setVisible(false);
 
         errorLB.setVisible(false);
+
+        listGeneralGoals = FXCollections.observableArrayList(Goals.loadGeneralGoal());
+        listExerciseGoals = FXCollections.observableArrayList(Goals.loadExerciseGoal());
+
+        listExerciseLV.setItems(listExerciseGoals);
+        listGeneralLV.setItems(listGeneralGoals);
+
+
+
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        try{
+            listExerciseLV.setItems(listExerciseGoals);
+            listGeneralLV.setItems(listGeneralGoals);
+            listHistoryLV.setItems(listHistoryGoals);
 
+        }catch (Exception e){
+            System.out.println("Empty list");
+        }
 
         targetChooser.setVisible(false);
+        historySP.setVisible(false);
+        showGoalSP.setVisible(false);
 
         errorLB.setVisible(false);
 
         try {
-            for (Goal g : goals.getGoals()) {
+            for (Goal g : loadGoals()) {
                 if(g.end.isBefore(LocalDate.now()) && g.currentValue < g.targetValue && g.state.equals("On Track")){
                     g.state = "Failed";
                 }
                 goals.addGoal(g);
                 System.out.println(g);
             }
-        } catch (Exception e) {
+        } catch (IOException | ClassNotFoundException e) {
             System.out.println("No goals");
         }
 
     }
 
-    public void cancelButtonClicked(ActionEvent actionEvent) {
-        try {
-            Main.changeStage(Main.class.getResource("fxml/Dashboard.fxml"), 670d, 452d);
-        }
-        catch(Exception e){
-            throw new RuntimeException(e);
-        }
+    public void seeHistory(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
+
+        listHistoryGoals = FXCollections.observableArrayList(Goals.loadHistoryGoal());
+        listHistoryLV.setItems(listHistoryGoals);
+
+        historySP.setVisible(true);
     }
+
+    public void close(ActionEvent actionEvent){
+        historySP.setVisible(false);
+    }
+
+    public void selectGeneralGoal(MouseEvent mouseEvent){
+        goalChosen = "General";
+        String measurement = "";
+        Goal gl = listGeneralLV.getSelectionModel().getSelectedItem();
+
+        if(gl == null)
+        {
+            return;
+        }
+
+        goalPB.progressProperty().bind(gl.getGoalProperty());
+
+        goalNameLB.setText(gl.goalType);
+
+        goalDateLB.setText(gl.start + " -> " + gl.end);
+
+        switch (gl.goalType) {
+            case "Weight" -> measurement = "kg";
+            case "BMI" -> measurement = "";
+            case "Calories Intake" -> measurement = "calories";
+        }
+
+        progressLB.setText(gl.currentValue + " of " + gl.targetValue + " " + measurement);
+
+        showGoalSP.setVisible(true);
+
+    }
+
+    public void selectExerciseGoal(MouseEvent mouseEvent) {
+        goalChosen = "Exercise";
+        String measurement = "";
+        ObservableList<String> observableList = FXCollections.observableArrayList();
+        Goal gl = listExerciseLV.getSelectionModel().getSelectedItem();
+        XYChart.Series<String, Integer> series = new XYChart.Series<>();
+        try{
+            for (Map.Entry<LocalDate, Integer> h : gl.dataAdded.entrySet()) {
+                observableList.add(h.getKey().toString());
+                series.getData().add(new XYChart.Data<>(h.getKey().toString(), h.getValue()));
+
+            }
+        }catch (NullPointerException nullPointerException){
+            System.out.println("No exercises added to goal");
+        }
+
+        goalCA.setCategories(observableList);
+
+        lineChart.getData().add(series);
+
+        if (gl == null) {
+            return;
+        }
+
+        goalPB.progressProperty().bind(gl.getGoalProperty());
+
+        goalNameLB.setText(gl.goalType);
+
+        goalDateLB.setText(gl.start + " -> " + gl.end);
+
+        switch (gl.goalType) {
+            case "Weight", "Run Distance", "Swim Distance" -> measurement = "km";
+            case "Steps" -> measurement = "steps";
+            case "Calories Burnt" -> measurement = "calories";
+        }
+
+        progressLB.setText(gl.currentValue + " of " + gl.targetValue + " " + measurement);
+
+        showGoalSP.setVisible(true);
+
+    }
+
+    public void closeGoal (ActionEvent actionEvent){
+        showGoalSP.setVisible(false);
+        goalChosen = "";
+    }
+
+    public void onRemove(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
+        Goals goals = new Goals();
+        Goal gl = null;
+        if(goalChosen == "General"){
+            gl = listGeneralLV.getSelectionModel().getSelectedItem();
+        }
+        else if(goalChosen == "Exercise"){
+            gl = listExerciseLV.getSelectionModel().getSelectedItem();
+        }
+        HashSet<Goal> temp = Goals.loadGoals();
+        goals.copyGoals(temp);
+        goals.remove(gl);
+        Goals.saveGoals(goals);
+
+        listGeneralGoals = FXCollections.observableArrayList(Goals.loadGeneralGoal());
+        listExerciseGoals = FXCollections.observableArrayList(Goals.loadExerciseGoal());
+
+        listGeneralLV.setItems(listGeneralGoals);
+        listExerciseLV.setItems(listExerciseGoals);
+
+        showGoalSP.setVisible(false);
+    }
+
+
 }

@@ -4,27 +4,30 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.fxml.JavaFXBuilderFactory;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.io.Serial;
 import java.io.Serializable;
 import java.net.URL;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
-//import static sample.Goals.loadGoals;
-//import static sample.Goals.saveGoals;
+import static sample.Goals.loadGoals;
+import static sample.Goals.saveGoals;
 
 public class AddExerciseController extends Exercises implements Initializable, Serializable{
 
-    @Serial
     private static final long serialVersionUID = 1L;
-    public Button cancelButton;
 
-    Exercises exercises = User.curUser.getExercises();
+    Exercises exercises = new Exercises();
 
     String type;
     Duration duration;
@@ -38,7 +41,7 @@ public class AddExerciseController extends Exercises implements Initializable, S
 
     Goals gs;
 
-    Goal goal;
+    Boolean b = false;
 
     //Variables that are connected to FXML file components
     @FXML
@@ -58,8 +61,7 @@ public class AddExerciseController extends Exercises implements Initializable, S
     public Label success;
     public SplitPane goalFinish;
     public Label congrats;
-    public Label challenge;
-    public DatePicker challengeDate;
+    public Button accept;
 
     //What are stored in the combo boxes
     ObservableList<String> activityList = FXCollections.observableArrayList("Running","Walking", "Cycling","Gym","Swimming","Yoga","Other");
@@ -83,18 +85,27 @@ public class AddExerciseController extends Exercises implements Initializable, S
         stepLabel.setVisible(false);
         message.setVisible(false);
         success.setVisible(false);
+        goalFinish.setVisible(false);
 
         //load exercises from database
-        for(Exercise ex: exercises.getExercises()) {
-            exercises.addExercise(ex);
-            System.out.println(ex);
+        try {
+            for(Exercise ex: loadExercises()){
+                exercises.addExercise(ex);
+                System.out.println(ex);
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("No exercises");
         }
 
-        for (Goal g : User.curUser.getGoals().getGoals()) {
-            if (g.end.isBefore(LocalDate.now()) && g.currentValue < g.targetValue && g.state.equals("On Track")) {
-                g.state = "Failed";
+        try {
+            for (Goal g : loadGoals()) {
+                if(g.end.isBefore(LocalDate.now()) && g.currentValue < g.targetValue && g.state.equals("On Track")){
+                    g.state = "Failed";
+                }
+                System.out.println(g);
             }
-            System.out.println(g);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
 
@@ -221,15 +232,74 @@ public class AddExerciseController extends Exercises implements Initializable, S
             exercise = new Exercise(type, date, duration, calories, strokes, distance, steps);
 
             exercises.addExercise(exercise);
-            User.curUser.saveUser();
+            saveExercises(exercises);
 
-            for(Exercise ex: exercises.getExercises()){
+            for(Exercise ex: loadExercises()){
                 System.out.println(ex);
             }
 
-            loopGoals();
+            String verb = "";
+            String unit = "";
+            gs = new Goals();
 
-            for(Goal goals : User.curUser.getGoals().getGoals()){
+            for(Goal g: loadGoals()){
+                if(g.state.equals("On Track") && (g.start.equals(exercise.date) || g.start.isBefore(exercise.date))
+                        && (g.end.isAfter(exercise.date) || g.end.equals(exercise.date))){
+
+                    int initial = g.currentValue;
+
+                    if(exercise.type.equals("Walking") && g.goalType.equals("Walk Distance")){
+                        g.currentValue += exercise.distance;
+                        verb = "walked";
+                        unit = "metre";
+                    }
+                    else if(exercise.type.equals("Running") && g.goalType.equals("Run Distance")) {
+                        g.currentValue += exercise.distance;
+                        verb = "ran";
+                        unit = "metre";
+                    }
+                    else if(exercise.type.equals("Swimming") && g.goalType.equals("Swim Distance")) {
+                        g.currentValue += exercise.distance;
+                        verb = "swam";
+                        unit = "metre";
+                    }
+
+                    if((exercise.type.equals("Walking")||exercise.type.equals("Running")) && g.goalType.equals("Steps")){
+                        g.currentValue += exercise.steps;
+                        verb = "did";
+                        unit = "steps";
+                    }
+
+                    if(g.goalType.equals("Calories Burnt")){
+                        g.currentValue += exercise.caloriesBurnt;
+                        verb = "burnt";
+                        unit = "calories";
+                    }
+
+                    if(g.currentValue >= g.targetValue){
+                        g.state = "Beaten";
+
+                        congrats.setText("Congratulations! You " + verb + " " + g.currentValue + " " + unit + " from " + g.start + " to "
+                                + g.end);
+
+                        goalFinish.setVisible(true);
+
+                    }
+
+                    if(g.dataAdded == null){
+                        g.dataAdded = new HashMap<>();
+                    }
+
+                    int finalValue = g.currentValue;
+
+                    g.dataAdded.put(exercise.date, finalValue - initial);
+                }
+
+                gs.addGoal(g);
+            }
+            saveGoals(gs);
+
+            for(Goal goals : loadGoals()){
                 System.out.println(goals);
             }
 
@@ -240,84 +310,20 @@ public class AddExerciseController extends Exercises implements Initializable, S
         }
     }
 
-    public void loopGoals(){
-        String verb = "";
-        String unit = "";
-        gs = User.curUser.getGoals();
-
-        for(Goal g: gs.getGoals()){
-            if(g.state.equals("On Track") && (g.start.equals(exercise.date) || g.start.isBefore(exercise.date))
-                    && (g.end.isAfter(exercise.date) || g.end.equals(exercise.date))){
-
-                if(exercise.type.equals("Walking") && g.goalType.equals("Walk Distance")){
-                    g.currentValue += exercise.distance;
-                    verb = "walked";
-                    unit = "metre";
-                }
-                else if(exercise.type.equals("Running") && g.goalType.equals("Run Distance")) {
-                    g.currentValue += exercise.distance;
-                    verb = "ran";
-                    unit = "metre";
-                }
-                else if(exercise.type.equals("Swimming") && g.goalType.equals("Swim Distance")) {
-                    g.currentValue += exercise.distance;
-                    verb = "swam";
-                    unit = "metre";
-                }
-
-                if((exercise.type.equals("Walking")||exercise.type.equals("Running")) && g.goalType.equals("Steps")){
-                    g.currentValue += exercise.steps;
-                    verb = "did";
-                    unit = "steps";
-                }
-
-                if(g.goalType.equals("Calories Burnt")){
-                    g.currentValue += exercise.caloriesBurnt;
-                    verb = "burnt";
-                    unit = "calories";
-                }
-
-                if(g.currentValue == g.targetValue){
-                    g.state = "Beaten";
-
-                    congrats.setText("Congratulations! You " + verb + " " + g.currentValue + " " + unit + " from " + g.start + " to "
-                    + g.end);
-
-                    Duration diff = Duration.between(g.start.atStartOfDay(), g.end.atStartOfDay());
-                    long diffDays = diff.toDays();
-
-                    challenge.setText("Are you willing to do "+ g.currentValue * 1.1 + " " + unit + " for " + diffDays + " starting from");
-
-                    goalFinish.setVisible(true);
-
-                    return;
-
-                }
-            }
-
-            gs.addGoal(g);
-        }
-        User.curUser.saveUser();
+    public void replaceSceneContent(String fxml) throws Exception {
+        Parent page;
+        page = FXMLLoader.load(getClass().getResource(fxml), null, new JavaFXBuilderFactory());
+        Stage stage = Main.stage;
+        stage.setScene(new Scene(page));
+        stage.show();
     }
 
-    public void onAccept(ActionEvent actionEvent){
+    public void onAccept(ActionEvent actionEvent) throws Exception {
+
+        replaceSceneContent("CreateGoal.fxml");
+    }
+
+    public void onDecline(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         goalFinish.setVisible(false);
-        loopGoals();
-
-        User.curUser.saveUser();
-    }
-
-    public void onDecline(ActionEvent actionEvent){
-        goalFinish.setVisible(false);
-        loopGoals();
-    }
-
-    public void cancelButtonClicked(ActionEvent actionEvent) {
-        try {
-            Main.changeStage(Main.class.getResource("fxml/Dashboard.fxml"), 670d, 452d);
-        }
-        catch(Exception e){
-            throw new RuntimeException(e);
-        }
     }
 }
