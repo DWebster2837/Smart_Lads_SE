@@ -54,7 +54,7 @@ public class DietController extends Diet implements Initializable, Serializable 
     @FXML private Label labelLunch;
     @FXML private Label labelDinner;
     @FXML private Label labelOther;
-
+    //Todo: TotalCaloriesTracked, Total Days Tracked.
     int breakfastTotal, lunchTotal, dinnerTotal, otherTotal;
 
 
