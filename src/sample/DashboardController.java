@@ -116,4 +116,13 @@ public class DashboardController implements Initializable {
         healthStatus.setText(healthText);
 
     }
+
+    public void changeUserDetailsClicked(ActionEvent actionEvent) {
+        try {
+            Main.changeStage(Main.class.getResource("fxml/UserDetails.fxml"), 544d, 175d);
+        }
+        catch(Exception e){
+            throw new RuntimeException(e);
+        }
+    }
 }

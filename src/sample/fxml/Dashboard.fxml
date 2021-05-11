@@ -41,6 +41,7 @@
                </font>
             </Label>
          </HBox>
+         <Button mnemonicParsing="false" onAction="#changeUserDetailsClicked" prefHeight="32.0" prefWidth="164.0" text="Change User Details" />
       </VBox>
    </AnchorPane>
    <Label layoutX="8.0" layoutY="7.0" prefHeight="30.0" prefWidth="178.0" text="USER DASHBOARD" textFill="#0d52f2">

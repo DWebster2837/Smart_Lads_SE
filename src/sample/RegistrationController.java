@@ -29,10 +29,12 @@ public class RegistrationController{
 
     public void buttonRegisterClick(){
         String pass = setPasswordField.getText();
-        int feet=0, inches=0, weight=0;
+        int feet=0, inches=0;
+        double weight = 0;
         try{
             feet=Integer.parseInt(feetTextBox.getText());
             inches = Integer.parseInt(inchesTextBox.getText());
+            weight = Double.parseDouble(weightTextField.getText());
         }
         catch(NumberFormatException e){
             errorLabel.setText("Please enter a valid number");
@@ -67,7 +69,7 @@ public class RegistrationController{
         User.curUser.setFirstname(firstnameTextField.getText());
         double height = (Integer.parseInt(feetTextBox.getText())*30.48) + (Integer.parseInt(inchesTextBox.getText())*2.54);
         User.curUser.setHeight_cm(height);
-        User.curUser.setWeight_kg(Double.parseDouble(weightTextField.getText()));
+        User.curUser.setWeight_kg(weight);
         User.curUser.getAccount().setEmail(emailTextBox.getText());
         User.curUser.setFirstname(firstnameTextField.getText());
         User.curUser.setLastname(lastnameTextField.getText());

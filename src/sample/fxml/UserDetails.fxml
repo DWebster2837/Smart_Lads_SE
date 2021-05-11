@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="175.0" prefWidth="544.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.UserDetails">
+   <children>
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#cancelButtonClicked" text="Cancel" />
+      <Button layoutX="14.0" layoutY="136.0" mnemonicParsing="false" onAction="#applyButtonClicked" text="Apply" />
+      <TextField fx:id="feetBox" layoutX="14.0" layoutY="100.0" />
+      <TextField fx:id="inchesBox" layoutX="191.0" layoutY="100.0" />
+      <TextField fx:id="weightBox" layoutX="367.0" layoutY="100.0" />
+      <TextField fx:id="firstnameBox" layoutX="191.0" layoutY="39.0" />
+      <TextField fx:id="surnameBox" layoutX="367.0" layoutY="39.0" />
+      <Label layoutX="77.0" layoutY="79.0" text="Feet" />
+      <Label layoutX="249.0" layoutY="79.0" text="Inches" />
+      <Label layoutX="411.0" layoutY="79.0" text="Weight (kg)" />
+      <Label layoutX="237.0" layoutY="18.0" text="First Name" />
+      <Label layoutX="418.0" layoutY="18.0" text="Surname" />
+      <Label fx:id="errorLabel" layoutX="262.0" layoutY="140.0" textAlignment="CENTER" textFill="RED" />
+   </children>
+</AnchorPane>
