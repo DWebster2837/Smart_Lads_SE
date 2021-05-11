@@ -54,14 +54,14 @@ public class DietController extends Diet implements Initializable, Serializable 
     @FXML private Label labelLunch;
     @FXML private Label labelDinner;
     @FXML private Label labelOther;
-    //Todo: TotalCaloriesTracked, Total Days Tracked.
+    //Todo: TotalCaloriesTracked, Total Days Tracked, Weekly view;
     int breakfastTotal, lunchTotal, dinnerTotal, otherTotal;
 
 
     private String mealSelected;
 
 
-    /*private Diet readDiet(){
+    private Diet readDiet(){
         FileInputStream fileInputStream = null;
         try {
             fileInputStream = new FileInputStream("Test.ser"); //replace with (Integer.toString(user.getUserID())+".ser")
@@ -89,11 +89,11 @@ public class DietController extends Diet implements Initializable, Serializable 
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
     public void closeHandle(){
         if (diet.isChangesMade()){
-            User.curUser.saveUser();
+            saveDiet();
         }
     }
 
@@ -168,6 +168,7 @@ public class DietController extends Diet implements Initializable, Serializable 
                 diet.getFoodListDay().remove(selectedItem);
                 diet.setTotalCalories(diet.getTotalCalories() - selectedItem.getCalories());
                 updateProgressBar();
+                sortListToTable();
                 break;
             case "Lunch":
                 selectedItem = lunchTable.getSelectionModel().getSelectedItem();
@@ -175,6 +176,7 @@ public class DietController extends Diet implements Initializable, Serializable 
                 diet.getFoodListDay().remove(selectedItem);
                 diet.setTotalCalories(diet.getTotalCalories() - selectedItem.getCalories());
                 updateProgressBar();
+                sortListToTable();
                 break;
             case "Dinner":
                 selectedItem = dinnerTable.getSelectionModel().getSelectedItem();
@@ -182,6 +184,7 @@ public class DietController extends Diet implements Initializable, Serializable 
                 diet.getFoodListDay().remove(selectedItem);
                 diet.setTotalCalories(diet.getTotalCalories() - selectedItem.getCalories());
                 updateProgressBar();
+                sortListToTable();
                 break;
             default:
                 selectedItem = other.getSelectionModel().getSelectedItem();
@@ -189,8 +192,9 @@ public class DietController extends Diet implements Initializable, Serializable 
                 diet.getFoodListDay().remove(selectedItem);
                 diet.setTotalCalories(diet.getTotalCalories() - selectedItem.getCalories());
                 updateProgressBar();
+                sortListToTable();
         }
-        sortListToTable();
+        diet.setChangesMade(true);
     }
 
     public void handleRemoveFood(ActionEvent event){
@@ -201,6 +205,7 @@ public class DietController extends Diet implements Initializable, Serializable 
         foodSelect1.getItems().remove(foodSelect1.getValue());
         foodSelect.getItems().remove(foodSelect1.getValue());
         foodSelect1.setValue(null);
+        diet.setChangesMade(true);
     }
 
     public void handleRemoveMeal(ActionEvent event){
@@ -212,6 +217,7 @@ public class DietController extends Diet implements Initializable, Serializable 
         mealSelect1.getItems().remove(mealSelect1.getValue());
         mealSelect.getItems().remove(mealSelect1.getValue());
         mealSelect1.setValue(null);
+        diet.setChangesMade(true);
     }
 
     public void removeMeal(String meal){
