@@ -315,6 +315,7 @@ public class DietController extends Diet implements Initializable, Serializable 
                     other.setItems(FXCollections.observableList(emptyFood));
                     other.getColumns().setAll(foodNameOther, foodCaloriesOther);
                     foodConsumed.textProperty().set(String.valueOf(diet.getTotalCalories()));
+                    sortListToTable();
                     updateProgressBar();
                 }
             }

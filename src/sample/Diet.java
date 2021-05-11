@@ -112,6 +112,7 @@ public class Diet implements Serializable {
 
     public Diet(){
         this.targetCalories = 2200;
+        this.lastSavedValue = 2200;
         this.foodList = new ArrayList<Food>();
         this.mealList = new ArrayList<String>();
         this.calender = new ArrayList<LocalDate>();
@@ -184,9 +185,9 @@ public class Diet implements Serializable {
         return totalCalories;
     }
 
-    public void addCalories(int amount){
+    /*public void addCalories(int amount){
         this.targetCalories +=amount;
-    }
+    }*/
 
     public int getTargetCalories(){
         return targetCalories;
