@@ -128,6 +128,22 @@ public class DietController extends Diet implements Initializable, Serializable 
         foodSelect.getItems().add(food);
         foodSelect1.getItems().add(food);
         User.curUser.saveUser();
+
+        //Goals stuff
+        Goals gs = new Goals();
+        for (Goal g : User.curUser.getGoals().getGoalsSet()) {
+            if (g.state.equals("On Track") && (g.start.equals(LocalDate.now()) || g.start.isBefore(LocalDate.now()))
+                    && (g.end.isAfter(LocalDate.now()) || g.end.equals(LocalDate.now()))) {
+
+                g.currentValue += Integer.parseInt(calories);
+
+                if (g.currentValue >= g.targetValue) {
+                    g.state = "Beaten";
+                }
+            }
+            gs.addGoal(g);
+        }
+        User.curUser.saveUser();
     }
 
     public void handleAddFoodToDiet(ActionEvent event){
@@ -142,6 +158,24 @@ public class DietController extends Diet implements Initializable, Serializable 
         foodConsumed.textProperty().set(String.valueOf(diet.getTotalCalories()));
         User.curUser.saveUser();
         updateProgressBar();
+
+        //Goals stuff
+        for(Goal goals : User.curUser.getGoals().getGoalsSet()){
+            System.out.println(goals);
+        }
+        Goals gs = User.curUser.getGoals();
+        for(Goal g: User.curUser.getGoals().getGoalsSet()){
+            if(g.state.equals("On Track") && g.goalType.equals("Calories Intake") && (g.start.equals(LocalDate.now()) || g.start.isBefore(LocalDate.now()))
+                    && (g.end.isAfter(LocalDate.now()) || g.end.equals(LocalDate.now()))){
+                g.currentValue += foodSelect.getValue().getCalories();
+                if(g.currentValue >= g.targetValue){
+                    g.state = "Beaten";
+                }
+            }
+            gs.addGoal(g);
+        }
+        User.curUser.saveUser();
+
     }
 
 
