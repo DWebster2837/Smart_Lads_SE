@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -71,6 +71,7 @@
                      <Button fx:id="removeMeal" mnemonicParsing="false" onAction="#handleRemoveMeal" text="Remove" />
                   </children>
                </HBox>
+               <Button mnemonicParsing="false" onAction="#cancelButtonClicked" prefHeight="25.0" prefWidth="161.0" text="Cancel" />
             </VBox>
          </content>
       </Tab>

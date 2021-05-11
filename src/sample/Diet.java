@@ -12,7 +12,6 @@ public class Diet implements Serializable {
 
     private ArrayList<Food> foodList;
     private ArrayList<String> mealList;
-
     public double getBarUpdater() {
         return barUpdater.get();
     }
