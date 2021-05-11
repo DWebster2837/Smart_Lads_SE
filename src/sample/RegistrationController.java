@@ -39,7 +39,7 @@ public class RegistrationController{
         User.curUser.getAccount().setEmail(emailTextBox.getText());
         User.curUser.setFirstname(firstnameTextField.getText());
         User.curUser.setLastname(lastnameTextField.getText());
-
+        User.curUser.saveUser();
         try {
             Main.changeStage(Main.class.getResource("fxml/Dashboard.fxml"), 670d, 452d);
 

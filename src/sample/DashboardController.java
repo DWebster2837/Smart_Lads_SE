@@ -19,6 +19,7 @@ public class DashboardController implements Initializable {
     public Label heightLabel;
     public Label weightLabel;
     public Label bmiLabel;
+    public Label nameLabel;
 
     public void userGroupButtonClick(ActionEvent actionEvent) {
         try {
@@ -73,6 +74,7 @@ public class DashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        nameLabel.setText(User.curUser.getFirstname());
         heightLabel.setText("Height: " + User.curUser.getHeight_cm() + "cm");
         weightLabel.setText("Weight: " + User.curUser.getWeight_kg() + "kg");
         bmiLabel.setText("BMI: " + User.curUser.getWeight_kg() / Math.pow(User.curUser.getHeight_cm()/100, 2));
