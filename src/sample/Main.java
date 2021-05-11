@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,6 +14,7 @@ import java.util.Objects;
 
 public class Main extends Application {
     private static Stage _primaryStage;
+    private DietController controller;
 
     public static Stage getPrimaryStage() {
         return _primaryStage;
@@ -28,6 +30,11 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 670, 452));
         primaryStage.show();
         _primaryStage = primaryStage;
+        controller = loader.getController();
+        primaryStage.setOnCloseRequest(e-> {
+            controller.closeHandle();
+            Platform.exit();
+        });
     }
 
     //resource, width, height, i think
