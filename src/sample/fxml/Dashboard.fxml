@@ -37,7 +37,7 @@
          <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
             <Label fx:id="healthStatus" alignment="CENTER" prefHeight="38.0" prefWidth="297.0" text="default text abcdf" textFill="#0ef04c">
                <font>
-                  <Font name="Bernard MT Condensed" size="38.0" />
+                  <Font name="Bernard MT Condensed" size="30.0" />
                </font>
             </Label>
          </HBox>
