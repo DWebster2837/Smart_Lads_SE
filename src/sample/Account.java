@@ -149,6 +149,7 @@ public class Account implements Serializable{
         newAcc.writeAccount(new File("accounts/" + id + ".ser"));
         newUser.saveUser();
         User.curUser = newUser;
+        accounts = loadAccounts();
         return newUser;
     }
 }
