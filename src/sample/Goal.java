@@ -18,7 +18,7 @@ public class Goal implements Serializable {
     String goalType;
     String state;
     int currentValue;
-    DoubleProperty percentFinish;
+    transient DoubleProperty percentFinish;
     HashMap<LocalDate, Integer> dataAdded;
 
 

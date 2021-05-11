@@ -253,15 +253,16 @@ public class CreateGoalController extends Goals implements Initializable, Serial
             }
         }catch (NullPointerException nullPointerException){
             System.out.println("No exercises added to goal");
+            return;
         }
 
         goalCA.setCategories(observableList);
-
+        lineChart.setData(FXCollections.observableArrayList());
         lineChart.getData().add(series);
 
-        if (gl == null) {
-            return;
-        }
+        //if (gl == null) {
+        //    return;
+        //}
 
         goalPB.progressProperty().bind(gl.getGoalProperty());
 
