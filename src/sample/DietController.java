@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class DietController extends Diet implements Initializable, Serializable {
-    private Diet diet;
-    private User user;
+    private Diet diet = User.curUser.getDiet();
+    //private User user;
     @FXML public ChoiceBox<Food> foodSelect;
     @FXML public ChoiceBox<String> mealSelect;
     @FXML public ChoiceBox<Food> foodSelect1;
@@ -124,7 +124,7 @@ public class DietController extends Diet implements Initializable, Serializable 
             }
         }
         Food food = new Food(foodName, Integer.parseInt(calories));
-        diet.getFoodList().add(food);
+        User.curUser.getDiet().getFoodList().add(food);
         foodSelect.getItems().add(food);
         foodSelect1.getItems().add(food);
         User.curUser.saveUser();
@@ -239,6 +239,7 @@ public class DietController extends Diet implements Initializable, Serializable 
         foodSelect1.getItems().remove(foodSelect1.getValue());
         foodSelect.getItems().remove(foodSelect1.getValue());
         foodSelect1.setValue(null);
+        foodSelect1.setValue(null);
         User.curUser.saveUser();
     }
 
@@ -344,7 +345,7 @@ public class DietController extends Diet implements Initializable, Serializable 
 
 
         if (diet != null) {
-            if(diet.getDate() == null){
+            /*if(diet.getDate() == null){
                 diet = new Diet();
                 diet.setFoodList(new ArrayList<>());
                 diet.setCalender(new ArrayList<>());
@@ -379,7 +380,7 @@ public class DietController extends Diet implements Initializable, Serializable 
                 other.getColumns().setAll(foodNameOther, foodCaloriesOther);
                 updateProgressBar();
             }
-            else {
+            else {*/
                 LocalDate currentDate = LocalDate.now();
                 mealSelect.getItems().addAll(diet.getMealList());
                 foodSelect.getItems().addAll(diet.getFoodList());
@@ -407,7 +408,7 @@ public class DietController extends Diet implements Initializable, Serializable 
                     diet.getMapFoodDate().put(LocalDate.now(), diet.getFoodListDay());
                     updateProgressBar();
                 }
-            }
+            //}
         }
         else { //if user doesn't have diet diary then create new
             diet = new Diet();

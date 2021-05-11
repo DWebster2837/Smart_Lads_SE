@@ -115,12 +115,26 @@ public class Diet implements Serializable {
         this.foodList = new ArrayList<Food>();
         this.mealList = new ArrayList<String>();
         this.calender = new ArrayList<LocalDate>();
-        //this.date = LocalDate.now();
+        this.date = LocalDate.now();
         this.mapFoodDate = new HashMap<LocalDate, ArrayList<Food>>(){};
         this.totalCalories = 0;
+        this.setFoodList(new ArrayList<>());
+        this.setCalender(new ArrayList<>());
+        this.setMealList(new ArrayList<>());
+        this.setMapFoodDate(new HashMap<>());
+        this.setMapTargetDate(new HashMap<>());
+        this.setFoodListDay(new ArrayList<>());
+        this.getMapFoodDate().put(LocalDate.now(), new ArrayList<>(this.getFoodListDay()));
+        this.getMapTargetDate().put(LocalDate.now(), this.getTargetCalories());
+        this.setDate(LocalDate.now());
+        this.setTotalCalories(0);
+        this.setSavedCalories(new ArrayList<>());
+        this.getMealList().add("Breakfast");
+        this.getMealList().add("Lunch");
+        this.getMealList().add("Dinner");
     }
 
-    public Diet(ArrayList<Food> foodList, ArrayList<String> mealList, ArrayList<Food> foodListDay, int targetCalories, int totalCalories, boolean changesMade, LocalDate date, Food food, ArrayList<LocalDate> calender, ArrayList<Integer> savedCalories, HashMap<LocalDate, ArrayList<Food>> mapFoodDate) {
+    /*public Diet(ArrayList<Food> foodList, ArrayList<String> mealList, ArrayList<Food> foodListDay, int targetCalories, int totalCalories, boolean changesMade, LocalDate date, Food food, ArrayList<LocalDate> calender, ArrayList<Integer> savedCalories, HashMap<LocalDate, ArrayList<Food>> mapFoodDate) {
         this.foodList = foodList;
         this.mealList = mealList;
         this.foodListDay = foodListDay;
@@ -132,7 +146,7 @@ public class Diet implements Serializable {
         this.calender = calender;
         this.savedCalories = savedCalories;
         this.mapFoodDate = mapFoodDate;
-    }
+    }*/
 
     public ArrayList<Food> getFoodList(){
         return foodList;
