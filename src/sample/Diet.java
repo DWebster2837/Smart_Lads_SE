@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Diet implements Serializable {
-
+    //Todo: clean.
     private ArrayList<Food> foodList;
     private ArrayList<String> mealList;
 

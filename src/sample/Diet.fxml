@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!---->
+
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
@@ -22,9 +24,18 @@
       <Tab text="Add Food">
          <content>
             <VBox fx:id="layout" prefHeight="95.0" prefWidth="624.0">
-               <HBox prefHeight="115.0" prefWidth="416.0">
+               <HBox prefHeight="115.0" prefWidth="482.0">
                   <children>
-                      <ButtonBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="115.0" prefWidth="551.0">
+                     <HBox prefHeight="100.0" prefWidth="200.0">
+                        <children>
+                           <Label prefHeight="117.0" prefWidth="200.0" text="Add Food to Diary">
+                              <font>
+                                 <Font size="19.0" />
+                              </font>
+                           </Label>
+                        </children>
+                     </HBox>
+                      <ButtonBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="83.0" prefWidth="225.0">
                         <buttons>
                             <ChoiceBox fx:id="foodSelect" prefWidth="150.0" />
                             <ChoiceBox fx:id="mealSelect" minWidth="39.0" prefHeight="25.0" prefWidth="150.0" />
@@ -73,12 +84,14 @@
                </HBox>
                <HBox prefHeight="43.0" prefWidth="624.0">
                   <children>
+                     <Label prefHeight="25.0" prefWidth="95.0" text="Remove Food" />
                      <ChoiceBox fx:id="foodSelect1" prefWidth="150.0" />
                      <Button fx:id="removeFood" mnemonicParsing="false" onAction="#handleRemoveFood" text="Remove" />
                   </children>
                </HBox>
                <HBox prefHeight="47.0" prefWidth="624.0">
                   <children>
+                     <Label prefHeight="27.0" prefWidth="95.0" text="Remove Meal" />
                      <ChoiceBox fx:id="mealSelect1" minWidth="39.0" prefHeight="25.0" prefWidth="150.0" />
                      <Button fx:id="removeMeal" mnemonicParsing="false" onAction="#handleRemoveMeal" text="Remove" />
                   </children>
@@ -155,7 +168,7 @@
                         <TableView fx:id="dinnerTable" prefHeight="120.0" prefWidth="400.0" />
                         <Label fx:id="labelOther" alignment="CENTER" prefHeight="17.0" prefWidth="634.0" text="Other, Total Calories: 0" />
                         <TableView fx:id="other" prefHeight="120.0" prefWidth="400.0" />
-                        <Button fx:id="removeSelectedFood" mnemonicParsing="false" text="Remove selected food" />
+                        <Button fx:id="removeSelectedFood" mnemonicParsing="false" onAction="#handleRemoveFoodFromFoodListDay" text="Remove selected food" />
                      </children>
                   </VBox>
                </content>
