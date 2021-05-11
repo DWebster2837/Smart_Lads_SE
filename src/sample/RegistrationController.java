@@ -42,6 +42,7 @@ public class RegistrationController{
             errorLabel.setText("Passwords do not match");
             return;
         }
+
         //check fields not blank and passwords match
         if(!confirmPasswordField.getText().isBlank() &&
                 !firstnameTextField.getText().isBlank() &&
@@ -50,7 +51,13 @@ public class RegistrationController{
                 !usernameTextField.getText().isBlank() &&
                 !firstnameTextField.getText().isBlank())
         {
-            Account.registerUser(usernameTextField.getText(), emailTextBox.getText(), pass);
+            if(!Account.nameExists(usernameTextField.getText())){
+                errorLabel.setText("Username already in use");
+                return;
+            }
+            else {
+                Account.registerUser(usernameTextField.getText(), emailTextBox.getText(), pass);
+            }
         }
         else{
             errorLabel.setText("Please enter a value for all fields");

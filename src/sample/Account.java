@@ -129,6 +129,10 @@ public class Account implements Serializable{
             return false;
         }
     }
+    public static boolean nameExists(String username){
+        Account attempt = Arrays.stream(accounts).filter(x->x.username.equals(username)).findFirst().orElse(null);
+        return attempt == null;
+    }
 
     public static User registerUser(String username, String email, String password){
         //guarantee unique id
