@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 
 public class CreateGoalController extends Goals implements Initializable, Serializable {
 
-    Goals goals = new Goals();
+    Goals goals = User.curUser.getGoals();
 
     LocalDate start, end;
     String goalType;
@@ -57,10 +57,9 @@ public class CreateGoalController extends Goals implements Initializable, Serial
     public CategoryAxis goalCA;
 
 
-
-    ObservableList<Goal> listGeneralGoals = FXCollections.observableArrayList(Goals.loadGeneralGoal());
-    ObservableList<Goal> listExerciseGoals = FXCollections.observableArrayList(Goals.loadExerciseGoal());
-    ObservableList<Goal> listHistoryGoals = FXCollections.observableArrayList(Goals.loadHistoryGoal());
+    ObservableList<Goal> listGeneralGoals = FXCollections.observableArrayList(goals.getGeneralGoals());
+    ObservableList<Goal> listExerciseGoals = FXCollections.observableArrayList(goals.getExerciseGoals());
+    ObservableList<Goal> listHistoryGoals = FXCollections.observableArrayList(goals.getHistoryGoals());
 
 
     String goalChosen;
@@ -159,8 +158,8 @@ public class CreateGoalController extends Goals implements Initializable, Serial
 
         errorLB.setVisible(false);
 
-        listGeneralGoals = FXCollections.observableArrayList(Goals.loadGeneralGoal());
-        listExerciseGoals = FXCollections.observableArrayList(Goals.loadExerciseGoal());
+        listGeneralGoals = FXCollections.observableArrayList(goals.getGeneralGoals());
+        listExerciseGoals = FXCollections.observableArrayList(goals.getExerciseGoals());
 
         listExerciseLV.setItems(listExerciseGoals);
         listGeneralLV.setItems(listGeneralGoals);
@@ -202,7 +201,7 @@ public class CreateGoalController extends Goals implements Initializable, Serial
 
     public void seeHistory(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
 
-        listHistoryGoals = FXCollections.observableArrayList(Goals.loadHistoryGoal());
+        listHistoryGoals = FXCollections.observableArrayList(goals.getHistoryGoals());
         listHistoryLV.setItems(listHistoryGoals);
 
         historySP.setVisible(true);
@@ -290,10 +289,10 @@ public class CreateGoalController extends Goals implements Initializable, Serial
     public void onRemove(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         Goals goals = new Goals();
         Goal gl = null;
-        if(goalChosen == "General"){
+        if(goalChosen.equals("General")){
             gl = listGeneralLV.getSelectionModel().getSelectedItem();
         }
-        else if(goalChosen == "Exercise"){
+        else if(goalChosen.equals("Exercise")){
             gl = listExerciseLV.getSelectionModel().getSelectedItem();
         }
         HashSet<Goal> temp = User.curUser.getGoals().getGoalsSet();
@@ -301,8 +300,8 @@ public class CreateGoalController extends Goals implements Initializable, Serial
         goals.remove(gl);
         User.curUser.saveUser();
 
-        listGeneralGoals = FXCollections.observableArrayList(Goals.loadGeneralGoal());
-        listExerciseGoals = FXCollections.observableArrayList(Goals.loadExerciseGoal());
+        listGeneralGoals = FXCollections.observableArrayList(goals.getGeneralGoals());
+        listExerciseGoals = FXCollections.observableArrayList(goals.getExerciseGoals());
 
         listGeneralLV.setItems(listGeneralGoals);
         listExerciseLV.setItems(listExerciseGoals);
@@ -310,5 +309,12 @@ public class CreateGoalController extends Goals implements Initializable, Serial
         showGoalSP.setVisible(false);
     }
 
-
+    public void cancelButtonClicked(ActionEvent actionEvent) {
+        try {
+            Main.changeStage(Main.class.getResource("fxml/Dashboard.fxml"), 670d, 452d);
+        }
+        catch(Exception e){
+            throw new RuntimeException(e);
+        }
+    }
 }

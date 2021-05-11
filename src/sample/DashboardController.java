@@ -49,13 +49,13 @@ public class DashboardController implements Initializable {
     }
 
     public void goalButtonClick(ActionEvent actionEvent) {
-        /*try {
-            Main.changeStage(Main.class.getResource("fxml/.fxml"), 670d, 452d);
+        try {
+            Main.changeStage(Main.class.getResource("fxml/CreateGoal.fxml"), 334d, 451d);
         }
         catch(Exception e){
             throw new RuntimeException(e);
-        }*/
-        //TODO: the distinct lack of goal view
+        }
+
     }
 
     public void exitButtonClicked(ActionEvent actionEvent) {
