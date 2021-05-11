@@ -25,13 +25,38 @@ public class RegistrationController{
     public PasswordField confirmPasswordField;
     public TextField feetTextBox;
     public TextField inchesTextBox;
+    public Label errorLabel;
 
     public void buttonRegisterClick(){
         String pass = setPasswordField.getText();
-        if(pass.equals(confirmPasswordField.getText())) {
+        int feet=0, inches=0, weight=0;
+        try{
+            feet=Integer.parseInt(feetTextBox.getText());
+            inches = Integer.parseInt(inchesTextBox.getText());
+        }
+        catch(NumberFormatException e){
+            errorLabel.setText("Please enter a valid number");
+            return;
+        }
+        if(!pass.equals(confirmPasswordField.getText())){
+            errorLabel.setText("Passwords do not match");
+            return;
+        }
+        //check fields not blank and passwords match
+        if(!confirmPasswordField.getText().isBlank() &&
+                !firstnameTextField.getText().isBlank() &&
+                !lastnameTextField.getText().isBlank() &&
+                !emailTextBox.getText().isBlank() &&
+                !usernameTextField.getText().isBlank() &&
+                !firstnameTextField.getText().isBlank())
+        {
             Account.registerUser(usernameTextField.getText(), emailTextBox.getText(), pass);
         }
-        else{return;}
+        else{
+            errorLabel.setText("Please enter a value for all fields");
+            return;
+        }
+        //set user's variables
         User.curUser.setFirstname(firstnameTextField.getText());
         double height = (Integer.parseInt(feetTextBox.getText())*30.48) + (Integer.parseInt(inchesTextBox.getText())*2.54);
         User.curUser.setHeight_cm(height);
@@ -40,6 +65,8 @@ public class RegistrationController{
         User.curUser.setFirstname(firstnameTextField.getText());
         User.curUser.setLastname(lastnameTextField.getText());
         User.curUser.saveUser();
+
+        //go to dashboard
         try {
             Main.changeStage(Main.class.getResource("fxml/Dashboard.fxml"), 670d, 452d);
 

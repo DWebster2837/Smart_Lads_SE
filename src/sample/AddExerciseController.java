@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.net.URL;
 import java.time.Duration;
@@ -20,14 +21,13 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
-import static sample.Goals.loadGoals;
-import static sample.Goals.saveGoals;
 
-public class AddExerciseController extends Exercises implements Initializable, Serializable{
 
-    private static final long serialVersionUID = 1L;
+public class AddExerciseController extends Exercises implements Initializable{
+    //@Serial
+    //private static final long serialVersionUID = 1L;
 
-    Exercises exercises = new Exercises();
+    Exercises exercises = User.curUser.getExercises();
 
     String type;
     Duration duration;
@@ -88,24 +88,16 @@ public class AddExerciseController extends Exercises implements Initializable, S
         goalFinish.setVisible(false);
 
         //load exercises from database
-        try {
-            for(Exercise ex: loadExercises()){
-                exercises.addExercise(ex);
-                System.out.println(ex);
+        //for(Exercise ex: User.curUser.getExercises().getMultipleExercises()) {
+        //    exercises.addExercise(ex);
+        //    System.out.println(ex);
+        //}
+        //exercises = User.curUser.getExercises();
+        for (Goal g : User.curUser.getGoals().getGoalsSet()) {
+            if (g.end.isBefore(LocalDate.now()) && g.currentValue < g.targetValue && g.state.equals("On Track")) {
+                g.state = "Failed";
             }
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("No exercises");
-        }
-
-        try {
-            for (Goal g : loadGoals()) {
-                if(g.end.isBefore(LocalDate.now()) && g.currentValue < g.targetValue && g.state.equals("On Track")){
-                    g.state = "Failed";
-                }
-                System.out.println(g);
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println(g);
         }
 
 
@@ -232,17 +224,17 @@ public class AddExerciseController extends Exercises implements Initializable, S
             exercise = new Exercise(type, date, duration, calories, strokes, distance, steps);
 
             exercises.addExercise(exercise);
-            saveExercises(exercises);
+            User.curUser.saveUser();
 
-            for(Exercise ex: loadExercises()){
-                System.out.println(ex);
-            }
+            //for(Exercise ex: loadExercises()){
+            //    System.out.println(ex);
+            //}
 
             String verb = "";
             String unit = "";
             gs = new Goals();
 
-            for(Goal g: loadGoals()){
+            for(Goal g: User.curUser.getGoals().getGoalsSet()){
                 if(g.state.equals("On Track") && (g.start.equals(exercise.date) || g.start.isBefore(exercise.date))
                         && (g.end.isAfter(exercise.date) || g.end.equals(exercise.date))){
 
@@ -297,11 +289,12 @@ public class AddExerciseController extends Exercises implements Initializable, S
 
                 gs.addGoal(g);
             }
-            saveGoals(gs);
+            //saveGoals(gs);
+            User.curUser.saveUser();
 
-            for(Goal goals : loadGoals()){
-                System.out.println(goals);
-            }
+            //for(Goal goals : loadGoals()){
+            //    System.out.println(goals);
+            //}
 
             message.setVisible(false);
 
@@ -310,20 +303,36 @@ public class AddExerciseController extends Exercises implements Initializable, S
         }
     }
 
-    public void replaceSceneContent(String fxml) throws Exception {
+    /*public void replaceSceneContent(String fxml) throws Exception {
         Parent page;
         page = FXMLLoader.load(getClass().getResource(fxml), null, new JavaFXBuilderFactory());
         Stage stage = Main.stage;
         stage.setScene(new Scene(page));
         stage.show();
+
+    }*/
+
+    public void onAccept(ActionEvent actionEvent){
+
+        //replaceSceneContent("CreateGoal.fxml");
+        try {
+            Main.changeStage(Main.class.getResource("fxml/CreateGoal.fxml"), 334d, 451d);
+        }
+        catch(Exception e){
+            throw new RuntimeException(e);
+        }
     }
 
-    public void onAccept(ActionEvent actionEvent) throws Exception {
-
-        replaceSceneContent("CreateGoal.fxml");
-    }
-
-    public void onDecline(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
+    public void onDecline(ActionEvent actionEvent){
         goalFinish.setVisible(false);
+    }
+
+    public void cancelButtonClicked(ActionEvent actionEvent) {
+        try {
+            Main.changeStage(Main.class.getResource("fxml/viewExercise.fxml"), 335d, 448d);
+        }
+        catch(Exception e){
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -149,11 +149,11 @@ public class CreateGoalController extends Goals implements Initializable, Serial
 
         goals.addGoal(goal);
 
-        saveGoals(goals);
+        User.curUser.saveUser();
 
-        for (Goal g : loadGoals()) {
-            System.out.println(g);
-        }
+        //for (Goal g : loadGoals()) {
+        //    System.out.println(g);
+        //}
 
         targetChooser.setVisible(false);
 
@@ -187,17 +187,16 @@ public class CreateGoalController extends Goals implements Initializable, Serial
 
         errorLB.setVisible(false);
 
-        try {
-            for (Goal g : loadGoals()) {
-                if(g.end.isBefore(LocalDate.now()) && g.currentValue < g.targetValue && g.state.equals("On Track")){
-                    g.state = "Failed";
-                }
-                goals.addGoal(g);
-                System.out.println(g);
+
+        for (Goal g : User.curUser.getGoals().getGoalsSet()) {
+            if (g.end.isBefore(LocalDate.now()) && g.currentValue < g.targetValue && g.state.equals("On Track")) {
+                g.state = "Failed";
             }
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("No goals");
+            goals.addGoal(g);
+            System.out.println(g);
         }
+
+
 
     }
 
@@ -297,10 +296,10 @@ public class CreateGoalController extends Goals implements Initializable, Serial
         else if(goalChosen == "Exercise"){
             gl = listExerciseLV.getSelectionModel().getSelectedItem();
         }
-        HashSet<Goal> temp = Goals.loadGoals();
+        HashSet<Goal> temp = User.curUser.getGoals().getGoalsSet();
         goals.copyGoals(temp);
         goals.remove(gl);
-        Goals.saveGoals(goals);
+        User.curUser.saveUser();
 
         listGeneralGoals = FXCollections.observableArrayList(Goals.loadGeneralGoal());
         listExerciseGoals = FXCollections.observableArrayList(Goals.loadExerciseGoal());

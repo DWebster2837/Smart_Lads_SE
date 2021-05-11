@@ -4,8 +4,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 
-import static sample.Goals.loadGoals;
-import static sample.Goals.saveGoals;
+
 
 public class Exercises implements Serializable{
 
@@ -14,7 +13,11 @@ public class Exercises implements Serializable{
     private HashSet<Exercise> multipleExercises = new HashSet<>();
     private String[] exerciseType;
 
-    static String fileName = "exercise.ser";
+    //static String fileName = "exercise.ser";
+
+    public HashSet<Exercise> getMultipleExercises() {
+        return multipleExercises;
+    }
 
     public static int getCaloriesInRange(LocalDate first, LocalDate last){
 
@@ -30,14 +33,14 @@ public class Exercises implements Serializable{
         return null;
     }
 
-    public static HashSet<Exercise> loadExercises() throws IOException, ClassNotFoundException {
+    /*public static HashSet<Exercise> loadExercises() throws IOException, ClassNotFoundException {
 
         FileInputStream fis = new FileInputStream(fileName);
         ObjectInputStream is = new ObjectInputStream(fis);
         Exercises ex= (Exercises) is.readObject();
         return ex.multipleExercises;
 
-    }
+    }*/
 
     public void addExercise(Exercise exercise){
 
@@ -49,13 +52,13 @@ public class Exercises implements Serializable{
         multipleExercises = ex;
     }
 
-    public static void saveExercises(Exercises ex) throws IOException {
+    /*public static void saveExercises(Exercises ex) throws IOException {
         FileOutputStream fos = new FileOutputStream(fileName);
         ObjectOutputStream os = new ObjectOutputStream(fos);
         os.writeObject(ex);
         os.close();
         System.out.println("Exercises saved");
-    }
+    }*/
 
     public void remove(Exercise exercise) throws IOException, ClassNotFoundException {
 
@@ -66,7 +69,7 @@ public class Exercises implements Serializable{
                     && e.caloriesBurnt == exercise.caloriesBurnt && e.numOfStrokes == exercise.numOfStrokes
                     && e.distance == exercise.distance && e.steps == exercise.steps){
                 multipleExercises.remove(e);
-                for(Goal g : loadGoals()){
+                for(Goal g : User.curUser.getGoals().getGoalsSet()){
                     if(exercise.type.equals("Walking") && g.goalType.equals("Walk Distance")){
                         g.currentValue -= exercise.distance;
                         g.dataAdded.remove(e.date, e.distance);
@@ -99,7 +102,7 @@ public class Exercises implements Serializable{
             }
         }
 
-        saveGoals(gs);
+        User.curUser.saveUser();
     }
 
 

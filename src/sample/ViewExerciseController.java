@@ -27,17 +27,18 @@ public class ViewExerciseController implements Initializable {
     public Button removeBtn;
     public Button showAllBtn;
 
-    ObservableList<Exercise> exercisesList = FXCollections.observableArrayList(Exercises.loadExercises());
+    //ObservableList<Exercise> exercisesList = FXCollections.observableArrayList(Exercises.loadExercises());
+    Exercises exer = User.curUser.getExercises();
 
     public ViewExerciseController() throws IOException, ClassNotFoundException {
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-        listExercise.setItems(exercisesList);
-        for( Exercise e : exercisesList){
-            System.out.println(e);
-        }
+        listExercise.setItems(FXCollections.observableArrayList(exer.getMultipleExercises()));
+        //for( Exercise e : exer.getMultipleExercises()){
+        //    System.out.println(e);
+        //}
         distance.setVisible(false);
         other.setVisible(false);
         exercisePopUp.setVisible(false);
@@ -94,7 +95,7 @@ public class ViewExerciseController implements Initializable {
         LocalDate ld = date.getValue();
         ObservableList<Exercise> exercisesOnDate = FXCollections.observableArrayList();
 
-        for(Exercise exercise : exercisesList){
+        for(Exercise exercise : exer.getMultipleExercises()){
             if(exercise.date.equals(ld)){
                 exercisesOnDate.add(exercise);
             }
@@ -112,21 +113,22 @@ public class ViewExerciseController implements Initializable {
         Exercises exercises = new Exercises();
 
         Exercise ex = listExercise.getSelectionModel().getSelectedItem();
-        HashSet<Exercise> temp = Exercises.loadExercises();
+        HashSet<Exercise> temp = exer.getMultipleExercises();
         exercises.copyExercises(temp);
         exercises.remove(ex);
-        Exercises.saveExercises(exercises);
+        //Exercises.saveExercises(exercises);
+        User.curUser.saveUser();
 
-        exercisesList = FXCollections.observableArrayList(Exercises.loadExercises());
+        //exercisesList = FXCollections.observableArrayList(Exercises.loadExercises());
         ObservableList<Exercise> updatedExercises = FXCollections.observableArrayList();
 
         LocalDate ld = date.getValue();
         //No date is chosen
         if(ld == null){
-            listExercise.setItems(exercisesList);
+            listExercise.setItems(FXCollections.observableArrayList(exer.getMultipleExercises()));
         }
         else { //Date is chosen
-            for(Exercise exercise : exercisesList){
+            for(Exercise exercise : exer.getMultipleExercises()){
                 if(exercise.date.equals(ld)){
                     updatedExercises.add(exercise);
                 }
@@ -140,8 +142,24 @@ public class ViewExerciseController implements Initializable {
     }
 
     public void showAll(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
-        exercisesList = FXCollections.observableArrayList(Exercises.loadExercises());
-        listExercise.setItems(exercisesList);
+        listExercise.setItems(FXCollections.observableArrayList(exer.getMultipleExercises()));
     }
 
+    public void addExerciseButtonClicked(ActionEvent actionEvent) {
+        try {
+            Main.changeStage(Main.class.getResource("fxml/AddExercise.fxml"), 335d, 448d);
+        }
+        catch(Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void cancelButtonClicked(ActionEvent actionEvent) {
+        try {
+            Main.changeStage(Main.class.getResource("fxml/Dashboard.fxml"), 670d, 452d);
+        }
+        catch(Exception e){
+            throw new RuntimeException(e);
+        }
+    }
 }

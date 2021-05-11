@@ -15,8 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
-import static sample.Goals.loadGoals;
-import static sample.Goals.saveGoals;
+
 
 public class DietController extends Diet implements Initializable, Serializable {
     private Diet diet;
@@ -110,7 +109,7 @@ public class DietController extends Diet implements Initializable, Serializable 
 
         //Goals stuff
         Goals gs = new Goals();
-        for(Goal g: loadGoals()){
+        for(Goal g: User.curUser.getGoals().getGoalsSet()){
             if(g.state.equals("On Track") && (g.start.equals(LocalDate.now()) || g.start.isBefore(LocalDate.now()))
                     && (g.end.isAfter(LocalDate.now()) || g.end.equals(LocalDate.now()))){
 
@@ -123,11 +122,11 @@ public class DietController extends Diet implements Initializable, Serializable 
 
             gs.addGoal(g);
         }
-        saveGoals(gs);
+        User.curUser.saveUser();
 
-        for(Goal goals : loadGoals()){
-            System.out.println(goals);
-        }
+        //for(Goal goals : loadGoals()){
+        //    System.out.println(goals);
+        //}
     }
 
     public void handleAddFoodToDiet(ActionEvent event) throws IOException, ClassNotFoundException {
@@ -138,11 +137,11 @@ public class DietController extends Diet implements Initializable, Serializable 
         breakfastTable.getColumns().setAll(breakfastFood, breakfastCalorie);
         diet.setChangesMade(true);
         //Goals stuff
-        for(Goal goals : loadGoals()){
+        for(Goal goals : User.curUser.getGoals().getGoalsSet()){
             System.out.println(goals);
         }
-        Goals gs = new Goals();
-        for(Goal g: loadGoals()){
+        Goals gs = User.curUser.getGoals();
+        for(Goal g: User.curUser.getGoals().getGoalsSet()){
             if(g.state.equals("On Track") && g.goalType.equals("Calories Intake") && (g.start.equals(LocalDate.now()) || g.start.isBefore(LocalDate.now()))
                     && (g.end.isAfter(LocalDate.now()) || g.end.equals(LocalDate.now()))){
 
@@ -155,11 +154,11 @@ public class DietController extends Diet implements Initializable, Serializable 
 
             gs.addGoal(g);
         }
-        saveGoals(gs);
+        User.curUser.saveUser();
 
-        for(Goal goals : loadGoals()){
-            System.out.println(goals);
-        }
+        //for(Goal goals : loadGoals()){
+        //    System.out.println(goals);
+        //}
     }
 
     @Override
@@ -238,7 +237,12 @@ public class DietController extends Diet implements Initializable, Serializable 
     }
 
 
-
-
-
+    public void cancelButtonClicked(ActionEvent actionEvent) {
+        try {
+            Main.changeStage(Main.class.getResource("fxml/Dashboard.fxml"), 670d, 452d);
+        }
+        catch(Exception e){
+            throw new RuntimeException(e);
+        }
+    }
 }

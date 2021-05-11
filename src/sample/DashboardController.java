@@ -50,7 +50,7 @@ public class DashboardController implements Initializable {
 
     public void goalButtonClick(ActionEvent actionEvent) {
         /*try {
-            Main.changeStage(Main.class.getResource("fxml/viewProgress.fxml"), 670d, 452d);
+            Main.changeStage(Main.class.getResource("fxml/.fxml"), 670d, 452d);
         }
         catch(Exception e){
             throw new RuntimeException(e);

@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="422.0" prefWidth="600.0" style="-fx-background-color: #F5F5F5;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.RegistrationController">
+<AnchorPane prefHeight="422.0" prefWidth="600.0" style="-fx-background-color: #F5F5F5;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.RegistrationController">
    <AnchorPane prefHeight="80.0" prefWidth="600.0">
       <ImageView fx:id="registerImageView" fitHeight="70.0" fitWidth="73.0" layoutX="14.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
          <Image url="@../../../Images/Register.png" />
@@ -70,4 +70,5 @@
    <PasswordField fx:id="confirmPasswordField" layoutX="171.0" layoutY="360.0" promptText="Confirm Password" />
    <TextField fx:id="feetTextBox" layoutX="435.0" layoutY="126.0" prefHeight="25.0" prefWidth="45.0" />
    <TextField fx:id="inchesTextBox" layoutX="510.0" layoutY="126.0" prefHeight="25.0" prefWidth="45.0" />
+   <Label fx:id="errorLabel" layoutX="402.0" layoutY="229.0" prefHeight="42.0" prefWidth="156.0" textFill="RED" />
 </AnchorPane>
