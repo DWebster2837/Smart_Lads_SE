@@ -103,13 +103,13 @@ public class DietController extends Diet implements Initializable, Serializable 
         diet.setChangesMade(true);
     }
 
-    public void handleAddFood(ActionEvent event){
+    public void handleAddFood(ActionEvent event) {
         String foodName = foodInput.getText();
         String calories = caloriesInput.getText();
 
-        for (Food food: diet.getFoodList()){
+        for (Food food : diet.getFoodList()) {
             if (foodName.equals("") || (food.getFoodName().equals(foodName)
-                    && food.getCalories() == Integer.parseInt(calories))){ //checks for duplicate
+                    && food.getCalories() == Integer.parseInt(calories))) { //checks for duplicate
                 return;
             }
         }
@@ -121,19 +121,20 @@ public class DietController extends Diet implements Initializable, Serializable 
 
         //Goals stuff
         Goals gs = new Goals();
-        for(Goal g: User.curUser.getGoals().getGoalsSet()){
-            if(g.state.equals("On Track") && (g.start.equals(LocalDate.now()) || g.start.isBefore(LocalDate.now()))
-                    && (g.end.isAfter(LocalDate.now()) || g.end.equals(LocalDate.now()))){
+        for (Goal g : User.curUser.getGoals().getGoalsSet()) {
+            if (g.state.equals("On Track") && (g.start.equals(LocalDate.now()) || g.start.isBefore(LocalDate.now()))
+                    && (g.end.isAfter(LocalDate.now()) || g.end.equals(LocalDate.now()))) {
 
                 g.currentValue += Integer.parseInt(calories);
 
-                if(g.currentValue >= g.targetValue){
+                if (g.currentValue >= g.targetValue) {
                     g.state = "Beaten";
                 }
             }
             gs.addGoal(g);
         }
         User.curUser.saveUser();
+    }
 
     public void handleAddFoodToDiet(ActionEvent event){
         if (mealSelect.getValue() == null || foodSelect.getValue() == null){
@@ -242,6 +243,7 @@ public class DietController extends Diet implements Initializable, Serializable 
         }catch (NumberFormatException e){
             return false;
         }
+        /*
         //Goals stuff
         for(Goal goals : User.curUser.getGoals().getGoalsSet()){
             System.out.println(goals);
@@ -261,7 +263,7 @@ public class DietController extends Diet implements Initializable, Serializable 
             gs.addGoal(g);
         }
         User.curUser.saveUser();
-
+        */
         //for(Goal goals : loadGoals()){
         //    System.out.println(goals);
         //}
@@ -308,8 +310,6 @@ public class DietController extends Diet implements Initializable, Serializable 
         });
 
         diet = User.curUser.getDiet();
-        breakfastFood.setCellValueFactory(new PropertyValueFactory<>("foodName"));
-        breakfastCalorie.setCellValueFactory(new PropertyValueFactory<>("calories"));
         foodNameBreakfast.setCellValueFactory(new PropertyValueFactory<>("foodName"));
         foodCaloriesBreakfast.setCellValueFactory(new PropertyValueFactory<>("calories"));
         foodNameLunch.setCellValueFactory(new PropertyValueFactory<>("foodName"));
