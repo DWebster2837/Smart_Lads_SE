@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane alignment="center" hgap="20" prefHeight="294.0" prefWidth="842.0" vgap="20" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GroupController">
+<GridPane alignment="center" hgap="20" prefHeight="296.0" prefWidth="842.0" vgap="20" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GroupController">
     <padding><Insets bottom="10" left="25" right="25" top="10" /></padding>
 
     <!--Drop down menu for group selection-->
@@ -21,29 +21,34 @@
             </FXCollections>
         </items>
     </ComboBox>
-    <!--email of the user to send the invite to-->
-    <Label text="Email:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-    <TextField fx:id="email" prefHeight="25.0" prefWidth="164.0" promptText="asd213asd@uea.ac.uk" GridPane.columnIndex="2" GridPane.rowIndex="1" />
     <!--send invite button-->
-    <Button fx:id="sendInviteButton" onAction="#sendGroupInvite" text="Send invite" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+    <Button fx:id="sendInviteButton" onAction="#sendGroupInvite" text="Send invite" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
 
     <!--send invite button-->
-    <Label text="GroupID:" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-    <TextField fx:id="groupID" promptText="" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-    <Button onAction="#joinById" text="Join by ID" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+    <Label text="Join code:" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+    <TextField fx:id="groupID" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+    <Button onAction="#joinById" text="Join by ID" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
 
     <!--cancel button-->
-    <Button onAction="#goBack" text="Go back" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-   <Label text="GroupID:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+    <Button onAction="#goBack" text="Go back" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+   <Label text="Group:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+   <Button mnemonicParsing="false" onAction="#createGroupClicked" prefHeight="25.0" prefWidth="201.0" text="Create Group" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+   <TextField fx:id="createGroupName" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+   <Label text="Group name: " GridPane.columnIndex="3" GridPane.rowIndex="2" />
+   <Label fx:id="joinError" prefHeight="17.0" prefWidth="183.0" textAlignment="CENTER" textFill="RED" GridPane.columnIndex="6" GridPane.rowIndex="4" />
+   <Label text="Join code:" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+   <TextField fx:id="joinCode" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="3" />
    <columnConstraints>
       <ColumnConstraints />
-      <ColumnConstraints maxWidth="95.0" minWidth="10.0" prefWidth="50.0" />
-      <ColumnConstraints maxWidth="209.0" minWidth="112.0" prefWidth="189.0" />
-      <ColumnConstraints maxWidth="229.0" minWidth="0.0" prefWidth="193.0" />
+      <ColumnConstraints maxWidth="95.0" minWidth="10.0" prefWidth="85.0" />
+      <ColumnConstraints maxWidth="209.0" minWidth="98.0" prefWidth="98.0" />
+      <ColumnConstraints maxWidth="209.0" minWidth="40.0" prefWidth="88.0" />
+      <ColumnConstraints maxWidth="272.0" minWidth="0.0" prefWidth="178.0" />
       <ColumnConstraints maxWidth="266.0" minWidth="10.0" prefWidth="78.0" />
       <ColumnConstraints maxWidth="382.0" minWidth="10.0" prefWidth="182.0" />
    </columnConstraints>
    <rowConstraints>
+      <RowConstraints />
       <RowConstraints />
       <RowConstraints />
       <RowConstraints />

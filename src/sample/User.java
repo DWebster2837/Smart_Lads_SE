@@ -1,10 +1,12 @@
 package sample;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class User implements Serializable {
     private final int userID;
-    private Group[] groups;
+    //private ArrayList<Group> groups;
+    private ArrayList<Integer> groups;
     private Exercises exercises;
     private Diet diet;
     private Goals goals;
@@ -15,7 +17,7 @@ public class User implements Serializable {
 
     public User(int userID, Account account) {
         this.userID = userID;
-        this.groups = new Group[]{};
+        this.groups = new ArrayList<>(){};
         this.exercises = new Exercises();
         this.diet = new Diet();
         this.goals = new Goals();
@@ -58,9 +60,10 @@ public class User implements Serializable {
         return userID;
     }
 
-    public Group[] getGroups() {
+    public ArrayList<Integer> getGroups() {
         return groups;
     }
+    public void addGroup(Group group){groups.add(group.getGroupId());}
 
     public Exercises getExercises() {
         return exercises;
