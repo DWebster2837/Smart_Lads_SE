@@ -119,7 +119,6 @@ public class DietController extends Diet implements Initializable, Serializable 
                     g.state = "Beaten";
                 }
             }
-
             gs.addGoal(g);
         }
         User.curUser.saveUser();

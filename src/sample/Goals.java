@@ -130,6 +130,7 @@ public class Goals implements Serializable {
             {
                 goalsSet.remove(f);
                 System.out.println("removed");
+                break;
             }
         }
     }

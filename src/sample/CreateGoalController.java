@@ -15,9 +15,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class CreateGoalController extends Goals implements Initializable, Serializable {
 
@@ -235,16 +233,34 @@ public class CreateGoalController extends Goals implements Initializable, Serial
 
         progressLB.setText(gl.currentValue + " of " + gl.targetValue + " " + measurement);
 
+        lineChart.setVisible(false);
+
         showGoalSP.setVisible(true);
 
     }
 
+    private static HashMap<LocalDate, Integer> sortValues(HashMap<LocalDate, Integer> map)
+    {
+        List<Map.Entry<LocalDate, Integer>> list = new LinkedList<>(map.entrySet());
+        Collections.sort(list, Map.Entry.comparingByKey());
+//copying the sorted list in HashMap to preserve the iteration order
+        HashMap<LocalDate, Integer> sortedHashMap = new LinkedHashMap<>();
+        for (Iterator<Map.Entry<LocalDate, Integer>> it = list.iterator(); it.hasNext();)
+        {
+            Map.Entry<LocalDate, Integer> entry = it.next();
+            sortedHashMap.put(entry.getKey(), entry.getValue());
+        }
+        return sortedHashMap;
+    }
+
     public void selectExerciseGoal(MouseEvent mouseEvent) {
+        lineChart.setVisible(true);
         goalChosen = "Exercise";
         String measurement = "";
         ObservableList<String> observableList = FXCollections.observableArrayList();
         Goal gl = listExerciseLV.getSelectionModel().getSelectedItem();
         XYChart.Series<String, Integer> series = new XYChart.Series<>();
+        gl.dataAdded = sortValues(gl.dataAdded);
         try{
             for (Map.Entry<LocalDate, Integer> h : gl.dataAdded.entrySet()) {
                 observableList.add(h.getKey().toString());
