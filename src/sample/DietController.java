@@ -43,7 +43,7 @@ public class DietController extends Diet implements Initializable, Serializable 
     LocalDate currentDate;
 
 
-    private Diet readDiet(){
+    /*private Diet readDiet(){
         FileInputStream fileInputStream = null;
         try {
             fileInputStream = new FileInputStream("Test.ser"); //replace with (Integer.toString(user.getUserID())+".ser")
@@ -71,11 +71,11 @@ public class DietController extends Diet implements Initializable, Serializable 
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     public void closeHandle(){
         if (diet.isChangesMade()){
-            saveDiet();
+            User.curUser.saveUser();
         }
     }
 
@@ -181,7 +181,7 @@ public class DietController extends Diet implements Initializable, Serializable 
             }
         });
 
-        diet = readDiet();
+        diet = User.curUser.getDiet();
         breakfastFood.setCellValueFactory(new PropertyValueFactory<>("foodName"));
         breakfastCalorie.setCellValueFactory(new PropertyValueFactory<>("calories"));
 
