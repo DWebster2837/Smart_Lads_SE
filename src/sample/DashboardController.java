@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.text.DecimalFormat;
 
 public class DashboardController implements Initializable {
     public Button userGroupButton;
@@ -20,6 +21,7 @@ public class DashboardController implements Initializable {
     public Label weightLabel;
     public Label bmiLabel;
     public Label nameLabel;
+    public Label healthStatus;
 
     public void userGroupButtonClick(ActionEvent actionEvent) {
         try {
@@ -77,6 +79,41 @@ public class DashboardController implements Initializable {
         nameLabel.setText(User.curUser.getFirstname());
         heightLabel.setText("Height: " + User.curUser.getHeight_cm() + "cm");
         weightLabel.setText("Weight: " + User.curUser.getWeight_kg() + "kg");
-        bmiLabel.setText("BMI: " + User.curUser.getWeight_kg() / Math.pow(User.curUser.getHeight_cm()/100, 2));
+        double BMI = User.curUser.getWeight_kg() / Math.pow(User.curUser.getHeight_cm()/100, 2);
+        bmiLabel.setText("BMI: " + new DecimalFormat("#.#").format(BMI));
+
+        String healthText = "Very Severely Obese";
+        String healthStyle = "-fx-text-fill: #ff0000";
+        if(BMI < 15){
+            healthText = "Very Severely Underweight";
+            healthStyle = "-fx-text-fill: #ff0000";
+        }
+        else if(BMI < 16){
+            healthText = "Severely Underweight";
+            healthStyle = "-fx-text-fill: #ff6600";
+        }
+        else if(BMI < 18.5){
+            healthText = "Underweight";
+            healthStyle = "-fx-text-fill: #ffe600";
+        }
+        else if(BMI < 25){
+            healthText = "Healthy";
+            healthStyle = "-fx-text-fill: #0ef04c";
+        }
+        else if(BMI < 30){
+            healthText = "Overweight";
+            healthStyle = "-fx-text-fill: #ffe600";
+        }
+        else if(BMI < 35){
+            healthText = "Moderately Obese";
+            healthStyle = "-fx-text-fill: #ffae00";
+        }
+        else if(BMI < 40){
+            healthText = "Severely Obese";
+            healthStyle = "-fx-text-fill: #ff6600";
+        }
+        healthStatus.setStyle(healthStyle);
+        healthStatus.setText(healthText);
+
     }
 }

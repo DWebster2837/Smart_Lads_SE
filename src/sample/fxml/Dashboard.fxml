@@ -9,6 +9,39 @@
    <AnchorPane layoutX="257.0" layoutY="-1.0" prefHeight="400.0" prefWidth="345.0">
       <Button fx:id="exitButton" layoutX="229.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitButtonClicked" prefHeight="25.0" prefWidth="102.0" text="Exit" />
       <Button fx:id="logoutButton" layoutX="119.0" layoutY="14.0" mnemonicParsing="false" onAction="#logoutButtonClicked" prefHeight="25.0" prefWidth="102.0" text="Logout" />
+      <VBox layoutX="20.0" layoutY="70.0" prefHeight="325.0" prefWidth="298.0">
+         <HBox alignment="TOP_CENTER" prefHeight="66.0" prefWidth="224.0">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="178.0" text="Health Satus" textAlignment="CENTER" textFill="#80a960">
+               <font>
+                  <Font name="Bernard MT Condensed" size="24.0" />
+               </font>
+            </Label>
+         </HBox>
+         <Label text=" BMI can be used to screen for weight categories ">
+            <font>
+               <Font size="13.0" />
+            </font>
+         </Label>
+         <Label text="that may lead to health problems">
+            <font>
+               <Font size="13.0" />
+            </font>
+         </Label>
+         <HBox alignment="CENTER" prefHeight="67.0" prefWidth="298.0">
+            <Label alignment="CENTER" text="Based on your BMI range you are:" textFill="#150edf">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </HBox>
+         <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+            <Label fx:id="healthStatus" alignment="CENTER" prefHeight="38.0" prefWidth="297.0" text="default text abcdf" textFill="#0ef04c">
+               <font>
+                  <Font name="Bernard MT Condensed" size="38.0" />
+               </font>
+            </Label>
+         </HBox>
+      </VBox>
    </AnchorPane>
    <Label layoutX="8.0" layoutY="7.0" prefHeight="30.0" prefWidth="178.0" text="USER DASHBOARD" textFill="#0d52f2">
       <font>
