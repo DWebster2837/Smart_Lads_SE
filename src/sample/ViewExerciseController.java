@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
@@ -25,9 +26,8 @@ public class ViewExerciseController implements Initializable {
     public Label popupTitle, duration, calories, distance, other;
     public Button removeBtn;
     public Button showAllBtn;
-    public Button cancelButton;
-    Exercises curExer = User.curUser.getExercises();
-    ObservableList<Exercise> exercisesList = FXCollections.observableArrayList(curExer.getExercises());
+
+    ObservableList<Exercise> exercisesList = FXCollections.observableArrayList(Exercises.loadExercises());
 
     public ViewExerciseController() throws IOException, ClassNotFoundException {
     }
@@ -40,6 +40,7 @@ public class ViewExerciseController implements Initializable {
         }
         distance.setVisible(false);
         other.setVisible(false);
+        exercisePopUp.setVisible(false);
     }
 
     public boolean isFuture(LocalDate date){
@@ -111,12 +112,12 @@ public class ViewExerciseController implements Initializable {
         Exercises exercises = new Exercises();
 
         Exercise ex = listExercise.getSelectionModel().getSelectedItem();
-        HashSet<Exercise> temp = curExer.getExercises();
+        HashSet<Exercise> temp = Exercises.loadExercises();
         exercises.copyExercises(temp);
         exercises.remove(ex);
-        User.curUser.saveUser();
+        Exercises.saveExercises(exercises);
 
-        exercisesList = FXCollections.observableArrayList(curExer.getExercises());
+        exercisesList = FXCollections.observableArrayList(Exercises.loadExercises());
         ObservableList<Exercise> updatedExercises = FXCollections.observableArrayList();
 
         LocalDate ld = date.getValue();
@@ -139,16 +140,8 @@ public class ViewExerciseController implements Initializable {
     }
 
     public void showAll(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
-        exercisesList = FXCollections.observableArrayList(curExer.getExercises());
+        exercisesList = FXCollections.observableArrayList(Exercises.loadExercises());
         listExercise.setItems(exercisesList);
     }
 
-    public void cancelButtonClicked(ActionEvent actionEvent) {
-        try {
-            Main.changeStage(Main.class.getResource("fxml/Dashboard.fxml"), 670d, 452d);
-        }
-        catch(Exception e){
-            throw new RuntimeException();
-        }
-    }
 }
