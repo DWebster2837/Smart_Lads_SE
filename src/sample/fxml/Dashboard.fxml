@@ -11,7 +11,7 @@
       <Button fx:id="logoutButton" layoutX="119.0" layoutY="14.0" mnemonicParsing="false" onAction="#logoutButtonClicked" prefHeight="25.0" prefWidth="102.0" text="Logout" />
       <VBox layoutX="20.0" layoutY="70.0" prefHeight="325.0" prefWidth="298.0">
          <HBox alignment="TOP_CENTER" prefHeight="66.0" prefWidth="224.0">
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="178.0" text="Health Satus" textAlignment="CENTER" textFill="#80a960">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="178.0" text="Health Status" textAlignment="CENTER" textFill="#80a960">
                <font>
                   <Font name="Bernard MT Condensed" size="24.0" />
                </font>
