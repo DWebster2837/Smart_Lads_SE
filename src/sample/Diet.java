@@ -16,6 +16,16 @@ public class Diet implements Serializable {
         return barUpdater.get();
     }
 
+    public Boolean getHasDiet() {
+        return hasDiet;
+    }
+
+    public void setHasDiet(Boolean hasDiet) {
+        this.hasDiet = hasDiet;
+    }
+
+    private Boolean hasDiet = false;
+
     public DoubleProperty barUpdaterProperty() {
         if (barUpdater == null){
             barUpdater = new SimpleDoubleProperty(0);
