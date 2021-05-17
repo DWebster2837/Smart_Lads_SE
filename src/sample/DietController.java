@@ -158,6 +158,7 @@ public class DietController extends Diet implements Initializable, Serializable 
         foodConsumed.textProperty().set(String.valueOf(diet.getTotalCalories()));
         User.curUser.saveUser();
         updateProgressBar();
+        sortListToTable();
 
         //Goals stuff
         for(Goal goals : User.curUser.getGoals().getGoalsSet()){
@@ -365,6 +366,8 @@ public class DietController extends Diet implements Initializable, Serializable 
                         updateProgressBar();
                     } else {
                         diet.setFoodListDay(new ArrayList<>());
+                        sortListToTable();
+                        updateProgressBar();
                     }
                 } else { //if diet retrieved is not today, create new day
                     diet.setFoodListDay(new ArrayList<>());
